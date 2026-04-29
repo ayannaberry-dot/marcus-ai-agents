@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Market Report — Example · Marcus's Team</title>
+<style>
+:root {
+  --bg: #f7f3ec;
+  --ink: #1a1f2b;
+  --muted: #5a6478;
+  --accent: #c4541b;
+  --accent-soft: #f5e3d6;
+  --navy: #1f3354;
+  --navy-soft: #e3e8f1;
+  --green: #2f6d4f;
+  --green-soft: #dceee4;
+  --card: #ffffff;
+  --border: #e3ddd0;
+  --shadow: 0 1px 2px rgba(20, 25, 35, 0.04), 0 8px 24px rgba(20, 25, 35, 0.06);
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.55; font-size: 16px;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 24px 24px 80px; }
+.topbar {
+  background: var(--navy); color: #f7f3ec; padding: 14px 0;
+}
+.topbar .inner {
+  max-width: 880px; margin: 0 auto; padding: 0 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap;
+}
+.topbar a { color: #ffb079; text-decoration: none; font-weight: 600; font-size: 14px; }
+.topbar a:hover { text-decoration: underline; }
+.crumb { color: #d8dde8; font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; }
+header.page {
+  margin-top: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--border);
+}
+.eyebrow {
+  text-transform: uppercase; letter-spacing: 0.1em; font-size: 11px;
+  color: var(--accent); font-weight: 700; margin-bottom: 8px;
+}
+h1 { font-size: 34px; line-height: 1.15; margin: 0 0 10px; letter-spacing: -0.02em; }
+.tagline { color: var(--muted); margin: 0; font-size: 17px; }
+.who-bar {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px;
+}
+.pill {
+  display: inline-block; font-size: 12px; font-weight: 600;
+  padding: 4px 10px; border-radius: 999px;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.pill.javier { background: var(--green-soft); color: var(--green); }
+.pill.marcus { background: var(--accent-soft); color: var(--accent); }
+.pill.system { background: var(--navy-soft); color: var(--navy); }
+.section-label {
+  font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em;
+  font-weight: 700; color: var(--muted); margin: 32px 0 8px;
+}
+.you-said {
+  background: #f4f0e6; border-left: 4px solid var(--accent);
+  border-radius: 0 12px 12px 0; padding: 16px 18px;
+  font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 15px;
+}
+.you-said::before { content: "👋  "; font-family: -apple-system, sans-serif; }
+.output {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 24px; box-shadow: var(--shadow);
+  margin-top: 8px;
+}
+.output h2 { margin-top: 0; font-size: 20px; }
+.output h3 {
+  font-size: 16px; margin: 20px 0 6px;
+  color: var(--navy); letter-spacing: -0.01em;
+}
+.output p { margin: 0 0 12px; }
+.output ul, .output ol { padding-left: 22px; margin: 0 0 12px; }
+.output li { margin-bottom: 6px; }
+.email {
+  background: #fafaf6; border: 1px solid var(--border); border-radius: 8px;
+  padding: 16px 18px; margin: 8px 0; font-size: 15px;
+}
+.email .meta { color: var(--muted); font-size: 13px; margin-bottom: 10px; }
+.email .meta strong { color: var(--ink); }
+.email .body { white-space: pre-wrap; line-height: 1.55; }
+.kv { display: grid; grid-template-columns: 160px 1fr; gap: 8px 16px; margin: 8px 0 16px; }
+.kv dt { color: var(--muted); font-size: 14px; }
+.kv dd { margin: 0; font-size: 15px; }
+table.data {
+  width: 100%; border-collapse: collapse; margin: 8px 0 16px; font-size: 14px;
+}
+table.data th, table.data td {
+  text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border);
+}
+table.data th { background: #faf6ee; color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+table.data tr:last-child td { border-bottom: none; }
+.callout {
+  background: var(--accent-soft); border-radius: 10px;
+  padding: 14px 16px; margin: 14px 0;
+  font-size: 14.5px; color: var(--ink);
+}
+.callout strong { color: var(--accent); }
+.flag {
+  background: #fff5e6; border-left: 3px solid #d18a2a;
+  padding: 10px 14px; border-radius: 0 8px 8px 0;
+  margin: 12px 0; font-size: 14.5px;
+}
+.next-step {
+  background: var(--navy); color: #f7f3ec; border-radius: 14px;
+  padding: 20px 24px; margin-top: 32px;
+}
+.next-step h3 { color: #ffb079; margin: 0 0 8px; font-size: 16px; }
+.next-step p { margin: 0; color: #d8dde8; }
+.next-step strong { color: #fff; }
+.nav-foot {
+  display: flex; justify-content: space-between; gap: 12px;
+  margin-top: 36px; padding-top: 20px; border-top: 1px solid var(--border);
+  font-size: 14px;
+}
+.nav-foot a { color: var(--accent); text-decoration: none; font-weight: 600; }
+.nav-foot a:hover { text-decoration: underline; }
+.diff-add { color: var(--green); }
+.diff-flag { color: var(--accent); font-weight: 600; }
+code.inline {
+  background: #f4f0e6; padding: 2px 6px; border-radius: 4px;
+  font-size: 13.5px;
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="inner">
+    <span class="crumb">05 · Marketing & Brand</span>
+    <a href="../marcus-team-overview.html">← Back to your team</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header class="page">
+    <div class="eyebrow">05 · Marketing & Brand</div>
+    <h1>Market Report</h1>
+    <p class="tagline">The monthly Chicago market data the newsletter and CMAs both pull from. Median price, DOM, top neighborhoods by appreciation.</p>
+    <div class="who-bar"><span class="pill javier">Javier runs</span><span class="pill system">Auto-runs first Mon of month</span></div>
+  </header>
+
+  <div class="section-label">What you'd say</div>
+  <div class="you-said">"Pull this month’s Chicago market report."</div>
+
+  <div class="section-label">What the helper produces</div>
+  <div class="output">
+      <h2>Chicago market report · April 2026</h2>
+      <p style="color:var(--muted);">Source: MRED MLS data + city-level Case-Shiller (lagged 60 days)</p>
+
+      <h3>Citywide</h3>
+      <table class="data">
+        <thead><tr><th>Metric</th><th>April 2026</th><th>YoY change</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td>Median sale price</td><td>$355,000</td><td>+2.1%</td><td>Modest — slowest YoY in 18 months</td></tr>
+          <tr><td>Days on market (median)</td><td>23</td><td>−8 days</td><td>Tighter than last spring</td></tr>
+          <tr><td>List-to-sale ratio</td><td>99.4%</td><td>+0.6 pts</td><td>Sellers holding firm</td></tr>
+          <tr><td>Active inventory</td><td>4,820 units</td><td>−14%</td><td>Continued tightening</td></tr>
+          <tr><td>Median $/sqft</td><td>$278</td><td>+3.0%</td><td>Detached &gt; condo growth</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Top 5 neighborhoods by appreciation (12-mo)</h3>
+      <table class="data">
+        <thead><tr><th>Neighborhood</th><th>Median price</th><th>YoY %</th></tr></thead>
+        <tbody>
+          <tr><td>Hermosa</td><td>$385K</td><td>+9.4%</td></tr>
+          <tr><td>Avondale</td><td>$485K</td><td>+7.8%</td></tr>
+          <tr><td>Humboldt Park</td><td>$415K</td><td>+7.1%</td></tr>
+          <tr><td>Ravenswood Manor</td><td>$795K</td><td>+5.6%</td></tr>
+          <tr><td>Pilsen</td><td>$445K</td><td>+5.3%</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Marcus's neighborhoods (zoomed)</h3>
+      <table class="data">
+        <thead><tr><th>Neighborhood</th><th>Median</th><th>DOM</th><th>Inventory</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td>Lincoln Park</td><td>$695K</td><td>19</td><td>Tight</td><td>SFH up 4.2%; condos flat</td></tr>
+          <tr><td>Lakeview</td><td>$555K</td><td>22</td><td>Very tight</td><td>2-bd condo &lt;$500K nearly extinct</td></tr>
+          <tr><td>West Loop</td><td>$475K</td><td>26</td><td>Tight</td><td>HOA-heavy buildings sitting longer</td></tr>
+          <tr><td>Ravenswood</td><td>$735K</td><td>17</td><td>Limited</td><td>Reno-quality moves in 2 weeks</td></tr>
+          <tr><td>Hyde Park</td><td>$365K</td><td>34</td><td>Moderate</td><td>Slowest of your zips</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout">
+        <strong>What's downstream:</strong> This report feeds the May newsletter (intro citing tight inventory + 23 DOM citywide), every CMA you run this month (with the neighborhood-level data baked in), and the LinkedIn post if you reference market context.
+      </div>
+    </div>
+
+  <div class="next-step">
+    
+      <h3>What happens now</h3>
+      <p><strong>Auto-published to your data folder.</strong> The newsletter, CMA, and any market commentary helper pull from this file for the next 30 days. Refresh fires automatically the first Monday of June.</p>
+    
+  </div>
+
+  <div class="nav-foot">
+    <a href="linkedin-post.html">← LinkedIn Post</a>
+    <a href="daily-debrief.html">Daily Debrief →</a>
+  </div>
+
+</div>
+
+</body>
+</html>

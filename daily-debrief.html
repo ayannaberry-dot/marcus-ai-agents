@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Debrief — Example · Marcus's Team</title>
+<style>
+:root {
+  --bg: #f7f3ec;
+  --ink: #1a1f2b;
+  --muted: #5a6478;
+  --accent: #c4541b;
+  --accent-soft: #f5e3d6;
+  --navy: #1f3354;
+  --navy-soft: #e3e8f1;
+  --green: #2f6d4f;
+  --green-soft: #dceee4;
+  --card: #ffffff;
+  --border: #e3ddd0;
+  --shadow: 0 1px 2px rgba(20, 25, 35, 0.04), 0 8px 24px rgba(20, 25, 35, 0.06);
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.55; font-size: 16px;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 24px 24px 80px; }
+.topbar {
+  background: var(--navy); color: #f7f3ec; padding: 14px 0;
+}
+.topbar .inner {
+  max-width: 880px; margin: 0 auto; padding: 0 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap;
+}
+.topbar a { color: #ffb079; text-decoration: none; font-weight: 600; font-size: 14px; }
+.topbar a:hover { text-decoration: underline; }
+.crumb { color: #d8dde8; font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; }
+header.page {
+  margin-top: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--border);
+}
+.eyebrow {
+  text-transform: uppercase; letter-spacing: 0.1em; font-size: 11px;
+  color: var(--accent); font-weight: 700; margin-bottom: 8px;
+}
+h1 { font-size: 34px; line-height: 1.15; margin: 0 0 10px; letter-spacing: -0.02em; }
+.tagline { color: var(--muted); margin: 0; font-size: 17px; }
+.who-bar {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px;
+}
+.pill {
+  display: inline-block; font-size: 12px; font-weight: 600;
+  padding: 4px 10px; border-radius: 999px;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.pill.javier { background: var(--green-soft); color: var(--green); }
+.pill.marcus { background: var(--accent-soft); color: var(--accent); }
+.pill.system { background: var(--navy-soft); color: var(--navy); }
+.section-label {
+  font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em;
+  font-weight: 700; color: var(--muted); margin: 32px 0 8px;
+}
+.you-said {
+  background: #f4f0e6; border-left: 4px solid var(--accent);
+  border-radius: 0 12px 12px 0; padding: 16px 18px;
+  font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 15px;
+}
+.you-said::before { content: "👋  "; font-family: -apple-system, sans-serif; }
+.output {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 24px; box-shadow: var(--shadow);
+  margin-top: 8px;
+}
+.output h2 { margin-top: 0; font-size: 20px; }
+.output h3 {
+  font-size: 16px; margin: 20px 0 6px;
+  color: var(--navy); letter-spacing: -0.01em;
+}
+.output p { margin: 0 0 12px; }
+.output ul, .output ol { padding-left: 22px; margin: 0 0 12px; }
+.output li { margin-bottom: 6px; }
+.email {
+  background: #fafaf6; border: 1px solid var(--border); border-radius: 8px;
+  padding: 16px 18px; margin: 8px 0; font-size: 15px;
+}
+.email .meta { color: var(--muted); font-size: 13px; margin-bottom: 10px; }
+.email .meta strong { color: var(--ink); }
+.email .body { white-space: pre-wrap; line-height: 1.55; }
+.kv { display: grid; grid-template-columns: 160px 1fr; gap: 8px 16px; margin: 8px 0 16px; }
+.kv dt { color: var(--muted); font-size: 14px; }
+.kv dd { margin: 0; font-size: 15px; }
+table.data {
+  width: 100%; border-collapse: collapse; margin: 8px 0 16px; font-size: 14px;
+}
+table.data th, table.data td {
+  text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border);
+}
+table.data th { background: #faf6ee; color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+table.data tr:last-child td { border-bottom: none; }
+.callout {
+  background: var(--accent-soft); border-radius: 10px;
+  padding: 14px 16px; margin: 14px 0;
+  font-size: 14.5px; color: var(--ink);
+}
+.callout strong { color: var(--accent); }
+.flag {
+  background: #fff5e6; border-left: 3px solid #d18a2a;
+  padding: 10px 14px; border-radius: 0 8px 8px 0;
+  margin: 12px 0; font-size: 14.5px;
+}
+.next-step {
+  background: var(--navy); color: #f7f3ec; border-radius: 14px;
+  padding: 20px 24px; margin-top: 32px;
+}
+.next-step h3 { color: #ffb079; margin: 0 0 8px; font-size: 16px; }
+.next-step p { margin: 0; color: #d8dde8; }
+.next-step strong { color: #fff; }
+.nav-foot {
+  display: flex; justify-content: space-between; gap: 12px;
+  margin-top: 36px; padding-top: 20px; border-top: 1px solid var(--border);
+  font-size: 14px;
+}
+.nav-foot a { color: var(--accent); text-decoration: none; font-weight: 600; }
+.nav-foot a:hover { text-decoration: underline; }
+.diff-add { color: var(--green); }
+.diff-flag { color: var(--accent); font-weight: 600; }
+code.inline {
+  background: #f4f0e6; padding: 2px 6px; border-radius: 4px;
+  font-size: 13.5px;
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="inner">
+    <span class="crumb">06 · Operations / Second Brain</span>
+    <a href="../marcus-team-overview.html">← Back to your team</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header class="page">
+    <div class="eyebrow">06 · Operations / Second Brain</div>
+    <h1>Daily Debrief</h1>
+    <p class="tagline">Voice-first 7–10 minute morning conversation. Walks you through active clients, what’s slipping, what one thing matters most today.</p>
+    <div class="who-bar"><span class="pill marcus">You use it</span><span class="pill system">The morning ritual</span></div>
+  </header>
+
+  <div class="section-label">What you'd say</div>
+  <div class="you-said">"Start my morning debrief."</div>
+
+  <div class="section-label">What the helper produces</div>
+  <div class="output">
+      <h2>Morning debrief · Tuesday Apr 28 · 7:42 AM</h2>
+      <p style="color:var(--muted);">Hands-free. 8 minutes. You're brushing your teeth.</p>
+
+      <h3>Transcript (your audio in plain text)</h3>
+      <div class="email">
+        <div class="body"><strong>Helper:</strong> Morning Marcus. Three things flag today before we go through deals. First — Carlson lender silence is now 72 hours, that's the most-pressing thing on your plate. Second — Patel inspection is tomorrow at 9, you're prepped. Third — listing presentation with the Trans was yesterday and they signed; we kicked off the 14-day timeline overnight. Want to start with Carlson or your active clients?
+
+<strong>Marcus:</strong> Carlson.
+
+<strong>Helper:</strong> Greg Patel at Wintrust submitted Apr 23, no movement since. Pre-approval was $668K, deal cleared at $672K — small gap, worth confirming. Appraisal contingency is May 11. Pattern-match: Greg has gone quiet on two prior deals at week 2; both closed but with one-week extensions. Recommendation is you call Greg today, not Javier. Want me to put it on top of your morning?
+
+<strong>Marcus:</strong> Yes. What time should I do it.
+
+<strong>Helper:</strong> 9:30. He's in office Tuesdays and answers direct before 10. After that he's in submissions till lunch.
+
+<strong>Marcus:</strong> OK. Next.
+
+<strong>Helper:</strong> Active buyers — the Reillys are the watch. 17 days no showing. Dead-zone-comms drafted a check-in last night; it's in your queue. Hendersons are touring four properties Saturday; tour-builder ran the routing — one open question is whether you want to pre-call Doug Petrie since he likes a phone heads-up, or trust the email Javier sent.
+
+<strong>Marcus:</strong> I'll text Doug. Note it.
+
+<strong>Helper:</strong> Noted. Lisa Park asked about earnest money at 8:42 last night, FAQ helper drafted a reply; passes voice check, ready for Javier to send. Carlsons are under contract — see Carlson note above. Patels — covered. That's your active buyers.
+
+<strong>Marcus:</strong> Sellers.
+
+<strong>Helper:</strong> One active. Trans on Hermitage. D-13 of pre-list timeline. Disclosure forms went out yesterday; risk on the photo shoot if May 8 rains, no rain backup confirmed yet. Recommend Javier locks Anya's rain backup today.
+
+<strong>Marcus:</strong> Yeah.
+
+<strong>Helper:</strong> Anything else before I close out?
+
+<strong>Marcus:</strong> Newsletter — when does it need to be done.
+
+<strong>Helper:</strong> Draft is ready, sent to your queue last night. Subject lines are A, B, C. Recommend A. You need to approve by Monday EOD for Tuesday send.
+
+<strong>Marcus:</strong> Read me option A.
+
+<strong>Helper:</strong> "Why I told a buyer to walk away last week." Story-led, opens on the Henderson Saturday showing without identifying them.
+
+<strong>Marcus:</strong> Good. Approve it.
+
+<strong>Helper:</strong> Approved. Newsletter scheduled for Tuesday May 5, 7 AM. Anything else?
+
+<strong>Marcus:</strong> No. Thanks.
+
+<strong>Helper:</strong> Good morning.</div>
+      </div>
+
+      <h3>What got captured during the debrief</h3>
+      <ul>
+        <li>✓ TODO: Marcus calls Greg Patel at 9:30</li>
+        <li>✓ TODO: Marcus texts Doug Petrie heads-up about Saturday tour</li>
+        <li>✓ TODO: Javier locks Anya rain backup today</li>
+        <li>✓ Newsletter approved — subject line A — scheduled May 5</li>
+        <li>✓ Reilly dead-zone draft moved to "send today" queue</li>
+      </ul>
+    </div>
+
+  <div class="next-step">
+    
+      <h3>What happens now</h3>
+      <p><strong>Your phone buzzes at 9:25 reminding you about Greg.</strong> Javier gets the Anya task in his daily checklist. The newsletter is locked. End-of-day debrief tonight will close the loop on whether Greg called back and whether Doug confirmed the tour.</p>
+    
+  </div>
+
+  <div class="nav-foot">
+    <a href="market-report.html">← Market Report</a>
+    <a href="pocketai-feed.html">pocketAI Feed →</a>
+  </div>
+
+</div>
+
+</body>
+</html>

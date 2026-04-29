@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marcus Voice — Example · Marcus's Team</title>
+<style>
+:root {
+  --bg: #f7f3ec;
+  --ink: #1a1f2b;
+  --muted: #5a6478;
+  --accent: #c4541b;
+  --accent-soft: #f5e3d6;
+  --navy: #1f3354;
+  --navy-soft: #e3e8f1;
+  --green: #2f6d4f;
+  --green-soft: #dceee4;
+  --card: #ffffff;
+  --border: #e3ddd0;
+  --shadow: 0 1px 2px rgba(20, 25, 35, 0.04), 0 8px 24px rgba(20, 25, 35, 0.06);
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.55; font-size: 16px;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 24px 24px 80px; }
+.topbar {
+  background: var(--navy); color: #f7f3ec; padding: 14px 0;
+}
+.topbar .inner {
+  max-width: 880px; margin: 0 auto; padding: 0 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap;
+}
+.topbar a { color: #ffb079; text-decoration: none; font-weight: 600; font-size: 14px; }
+.topbar a:hover { text-decoration: underline; }
+.crumb { color: #d8dde8; font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; }
+header.page {
+  margin-top: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--border);
+}
+.eyebrow {
+  text-transform: uppercase; letter-spacing: 0.1em; font-size: 11px;
+  color: var(--accent); font-weight: 700; margin-bottom: 8px;
+}
+h1 { font-size: 34px; line-height: 1.15; margin: 0 0 10px; letter-spacing: -0.02em; }
+.tagline { color: var(--muted); margin: 0; font-size: 17px; }
+.who-bar {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px;
+}
+.pill {
+  display: inline-block; font-size: 12px; font-weight: 600;
+  padding: 4px 10px; border-radius: 999px;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.pill.javier { background: var(--green-soft); color: var(--green); }
+.pill.marcus { background: var(--accent-soft); color: var(--accent); }
+.pill.system { background: var(--navy-soft); color: var(--navy); }
+.section-label {
+  font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em;
+  font-weight: 700; color: var(--muted); margin: 32px 0 8px;
+}
+.you-said {
+  background: #f4f0e6; border-left: 4px solid var(--accent);
+  border-radius: 0 12px 12px 0; padding: 16px 18px;
+  font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 15px;
+}
+.you-said::before { content: "👋  "; font-family: -apple-system, sans-serif; }
+.output {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 24px; box-shadow: var(--shadow);
+  margin-top: 8px;
+}
+.output h2 { margin-top: 0; font-size: 20px; }
+.output h3 {
+  font-size: 16px; margin: 20px 0 6px;
+  color: var(--navy); letter-spacing: -0.01em;
+}
+.output p { margin: 0 0 12px; }
+.output ul, .output ol { padding-left: 22px; margin: 0 0 12px; }
+.output li { margin-bottom: 6px; }
+.email {
+  background: #fafaf6; border: 1px solid var(--border); border-radius: 8px;
+  padding: 16px 18px; margin: 8px 0; font-size: 15px;
+}
+.email .meta { color: var(--muted); font-size: 13px; margin-bottom: 10px; }
+.email .meta strong { color: var(--ink); }
+.email .body { white-space: pre-wrap; line-height: 1.55; }
+.kv { display: grid; grid-template-columns: 160px 1fr; gap: 8px 16px; margin: 8px 0 16px; }
+.kv dt { color: var(--muted); font-size: 14px; }
+.kv dd { margin: 0; font-size: 15px; }
+table.data {
+  width: 100%; border-collapse: collapse; margin: 8px 0 16px; font-size: 14px;
+}
+table.data th, table.data td {
+  text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border);
+}
+table.data th { background: #faf6ee; color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+table.data tr:last-child td { border-bottom: none; }
+.callout {
+  background: var(--accent-soft); border-radius: 10px;
+  padding: 14px 16px; margin: 14px 0;
+  font-size: 14.5px; color: var(--ink);
+}
+.callout strong { color: var(--accent); }
+.flag {
+  background: #fff5e6; border-left: 3px solid #d18a2a;
+  padding: 10px 14px; border-radius: 0 8px 8px 0;
+  margin: 12px 0; font-size: 14.5px;
+}
+.next-step {
+  background: var(--navy); color: #f7f3ec; border-radius: 14px;
+  padding: 20px 24px; margin-top: 32px;
+}
+.next-step h3 { color: #ffb079; margin: 0 0 8px; font-size: 16px; }
+.next-step p { margin: 0; color: #d8dde8; }
+.next-step strong { color: #fff; }
+.nav-foot {
+  display: flex; justify-content: space-between; gap: 12px;
+  margin-top: 36px; padding-top: 20px; border-top: 1px solid var(--border);
+  font-size: 14px;
+}
+.nav-foot a { color: var(--accent); text-decoration: none; font-weight: 600; }
+.nav-foot a:hover { text-decoration: underline; }
+.diff-add { color: var(--green); }
+.diff-flag { color: var(--accent); font-weight: 600; }
+code.inline {
+  background: #f4f0e6; padding: 2px 6px; border-radius: 4px;
+  font-size: 13.5px;
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="inner">
+    <span class="crumb">05 · Marketing & Brand</span>
+    <a href="../marcus-team-overview.html">← Back to your team</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header class="page">
+    <div class="eyebrow">05 · Marketing & Brand</div>
+    <h1>Marcus Voice</h1>
+    <p class="tagline">The gatekeeper. Every customer-facing draft passes a 4-check filter before it goes out.</p>
+    <div class="who-bar"><span class="pill system">Always on</span></div>
+  </header>
+
+  <div class="section-label">What you'd say</div>
+  <div class="you-said">"Does this draft pass the voice check? \’Hi! Hope you’re having an amazing week! Just wanted to circle back about earnest money...\’"</div>
+
+  <div class="section-label">What the helper produces</div>
+  <div class="output">
+      <h2>Voice check — failed</h2>
+      <p style="color:var(--accent); font-weight:600;">3 of 4 checks failed. Don't send.</p>
+
+      <h3>Check-by-check</h3>
+      <table class="data">
+        <thead><tr><th>Check</th><th>Pass?</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Leads with the answer</strong></td><td><span class="diff-flag">FAIL</span></td><td>Opens with "Hi! Hope you're having an amazing week!" — that's a delay before the answer. You lead with the answer.</td></tr>
+          <tr><td><strong>Specific over generic</strong></td><td><span class="diff-flag">FAIL</span></td><td>"Just wanted to circle back" is the most generic transition in the buyer-agent template playbook. You don't write like that.</td></tr>
+          <tr><td><strong>Warm not effusive</strong></td><td><span class="diff-flag">FAIL</span></td><td>Two exclamation points and "amazing" inside the first 10 words. You use exclamation points sparingly and "amazing" essentially never.</td></tr>
+          <tr><td><strong>Would Marcus actually say this?</strong></td><td><span class="diff-flag">FAIL</span></td><td>No. This sounds like a different broker.</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Suggested rewrite</h3>
+      <div class="email">
+        <div class="body">Lisa — quick on the earnest money question. Short answer: 1–2% of offer price, due 1–2 days after acceptance, held in the listing brokerage's escrow. On a $450K offer that's ~$4,500–9,000 — and it credits to your down payment at closing.
+
+Couple things to know past the basics: ...</div>
+      </div>
+
+      <h3>What changed</h3>
+      <ul>
+        <li>Opens with the answer (1–2%, 1–2 days, escrow). No greeting delay.</li>
+        <li>"Quick on the…" is a phrase from your exemplars (used 11x in your last 90 days of texts).</li>
+        <li>Specific numbers tied to her actual price band.</li>
+        <li>One natural transition ("Couple things to know past the basics…") instead of a corporate one.</li>
+      </ul>
+
+      <div class="callout">
+        <strong>What the voice guide remembers:</strong> Your voice was characterized in onboarding as "knowledgeable older sibling explaining a thing they actually understand." Effusive openings break that the fastest.
+      </div>
+    </div>
+
+  <div class="next-step">
+    
+      <h3>What happens now</h3>
+      <p><strong>The original draft is held until rewritten.</strong> Marcus Voice runs automatically on every other helper's output — you almost never invoke it directly. When you do, it's because something feels off and you want a second read.</p>
+    
+  </div>
+
+  <div class="nav-foot">
+    <a href="weekly-client-digest.html">← Weekly Client Digest</a>
+    <a href="newsletter.html">Newsletter →</a>
+  </div>
+
+</div>
+
+</body>
+</html>

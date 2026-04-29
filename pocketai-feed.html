@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>pocketAI Feed — Example · Marcus's Team</title>
+<style>
+:root {
+  --bg: #f7f3ec;
+  --ink: #1a1f2b;
+  --muted: #5a6478;
+  --accent: #c4541b;
+  --accent-soft: #f5e3d6;
+  --navy: #1f3354;
+  --navy-soft: #e3e8f1;
+  --green: #2f6d4f;
+  --green-soft: #dceee4;
+  --card: #ffffff;
+  --border: #e3ddd0;
+  --shadow: 0 1px 2px rgba(20, 25, 35, 0.04), 0 8px 24px rgba(20, 25, 35, 0.06);
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.55; font-size: 16px;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 24px 24px 80px; }
+.topbar {
+  background: var(--navy); color: #f7f3ec; padding: 14px 0;
+}
+.topbar .inner {
+  max-width: 880px; margin: 0 auto; padding: 0 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap;
+}
+.topbar a { color: #ffb079; text-decoration: none; font-weight: 600; font-size: 14px; }
+.topbar a:hover { text-decoration: underline; }
+.crumb { color: #d8dde8; font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; }
+header.page {
+  margin-top: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--border);
+}
+.eyebrow {
+  text-transform: uppercase; letter-spacing: 0.1em; font-size: 11px;
+  color: var(--accent); font-weight: 700; margin-bottom: 8px;
+}
+h1 { font-size: 34px; line-height: 1.15; margin: 0 0 10px; letter-spacing: -0.02em; }
+.tagline { color: var(--muted); margin: 0; font-size: 17px; }
+.who-bar {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px;
+}
+.pill {
+  display: inline-block; font-size: 12px; font-weight: 600;
+  padding: 4px 10px; border-radius: 999px;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.pill.javier { background: var(--green-soft); color: var(--green); }
+.pill.marcus { background: var(--accent-soft); color: var(--accent); }
+.pill.system { background: var(--navy-soft); color: var(--navy); }
+.section-label {
+  font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em;
+  font-weight: 700; color: var(--muted); margin: 32px 0 8px;
+}
+.you-said {
+  background: #f4f0e6; border-left: 4px solid var(--accent);
+  border-radius: 0 12px 12px 0; padding: 16px 18px;
+  font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 15px;
+}
+.you-said::before { content: "👋  "; font-family: -apple-system, sans-serif; }
+.output {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 24px; box-shadow: var(--shadow);
+  margin-top: 8px;
+}
+.output h2 { margin-top: 0; font-size: 20px; }
+.output h3 {
+  font-size: 16px; margin: 20px 0 6px;
+  color: var(--navy); letter-spacing: -0.01em;
+}
+.output p { margin: 0 0 12px; }
+.output ul, .output ol { padding-left: 22px; margin: 0 0 12px; }
+.output li { margin-bottom: 6px; }
+.email {
+  background: #fafaf6; border: 1px solid var(--border); border-radius: 8px;
+  padding: 16px 18px; margin: 8px 0; font-size: 15px;
+}
+.email .meta { color: var(--muted); font-size: 13px; margin-bottom: 10px; }
+.email .meta strong { color: var(--ink); }
+.email .body { white-space: pre-wrap; line-height: 1.55; }
+.kv { display: grid; grid-template-columns: 160px 1fr; gap: 8px 16px; margin: 8px 0 16px; }
+.kv dt { color: var(--muted); font-size: 14px; }
+.kv dd { margin: 0; font-size: 15px; }
+table.data {
+  width: 100%; border-collapse: collapse; margin: 8px 0 16px; font-size: 14px;
+}
+table.data th, table.data td {
+  text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border);
+}
+table.data th { background: #faf6ee; color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+table.data tr:last-child td { border-bottom: none; }
+.callout {
+  background: var(--accent-soft); border-radius: 10px;
+  padding: 14px 16px; margin: 14px 0;
+  font-size: 14.5px; color: var(--ink);
+}
+.callout strong { color: var(--accent); }
+.flag {
+  background: #fff5e6; border-left: 3px solid #d18a2a;
+  padding: 10px 14px; border-radius: 0 8px 8px 0;
+  margin: 12px 0; font-size: 14.5px;
+}
+.next-step {
+  background: var(--navy); color: #f7f3ec; border-radius: 14px;
+  padding: 20px 24px; margin-top: 32px;
+}
+.next-step h3 { color: #ffb079; margin: 0 0 8px; font-size: 16px; }
+.next-step p { margin: 0; color: #d8dde8; }
+.next-step strong { color: #fff; }
+.nav-foot {
+  display: flex; justify-content: space-between; gap: 12px;
+  margin-top: 36px; padding-top: 20px; border-top: 1px solid var(--border);
+  font-size: 14px;
+}
+.nav-foot a { color: var(--accent); text-decoration: none; font-weight: 600; }
+.nav-foot a:hover { text-decoration: underline; }
+.diff-add { color: var(--green); }
+.diff-flag { color: var(--accent); font-weight: 600; }
+code.inline {
+  background: #f4f0e6; padding: 2px 6px; border-radius: 4px;
+  font-size: 13.5px;
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="inner">
+    <span class="crumb">06 · Operations / Second Brain</span>
+    <a href="../marcus-team-overview.html">← Back to your team</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header class="page">
+    <div class="eyebrow">06 · Operations / Second Brain</div>
+    <h1>pocketAI Feed</h1>
+    <p class="tagline">The central nervous system. Every call + consented in-person conversation, tagged, routed, searchable. Illinois consent rules enforced.</p>
+    <div class="who-bar"><span class="pill system">Always on</span></div>
+  </header>
+
+  <div class="section-label">What you'd say</div>
+  <div class="you-said">"What did I tell the Carlsons about the closing-cost grant?"</div>
+
+  <div class="section-label">What the helper produces</div>
+  <div class="output">
+      <h2>Search result · "Carlsons + closing-cost grant"</h2>
+      <p>3 hits across your pocketAI corpus, last 60 days.</p>
+
+      <h3>Hit 1 · Apr 14, 4:22 PM · phone call · 12 minutes</h3>
+      <div class="email">
+        <div class="meta"><strong>Source:</strong> Outbound call to Maya Carlson · <strong>Tagged:</strong> buyer / financing / grants</div>
+        <div class="body">[06:18] "...so the IHDA Access program is $6,000 forgivable over ten years — meaning if you stay in the property ten years, you keep all of it. If you sell in year five, you owe back fifty percent. It's not a loan you're paying interest on, it's a forgivable second lien."
+
+[07:02] "The City of Chicago BNDP closing-cost grant is up to $5,000 — separate program, can stack with IHDA. So you're potentially looking at eleven thousand combined, which on a $665,000 deal is meaningful but not life-changing."
+
+[08:45] "I'd want Janelle at First Citizens to confirm the eligibility math. Income limits matter and you're close to the cap on the IHDA one — depends on how they count Greg's bonus."</div>
+      </div>
+
+      <h3>Hit 2 · Apr 19, 11:08 AM · in-person, consented · 4 minutes</h3>
+      <div class="email">
+        <div class="meta"><strong>Source:</strong> Showing at 2418 N. Sheffield · <strong>Tagged:</strong> showing-debrief / financing</div>
+        <div class="body">[03:14] "Right, the grant — Greg, your bonus situation. I think we'll come in just under the IHDA income cap because they look at base salary plus a 2-year average of bonus, and your bonus history is variable. Janelle's running it this week."</div>
+      </div>
+
+      <h3>Hit 3 · Apr 24, 2:51 PM · phone call · 7 minutes</h3>
+      <div class="email">
+        <div class="meta"><strong>Source:</strong> Inbound from Greg Carlson · <strong>Tagged:</strong> financing / decision</div>
+        <div class="body">[02:08] "Janelle confirmed you're eligible for IHDA at the $6K — your AGI came in just under cap. BNDP separately you qualify for. Combined eleven thousand."
+
+[04:30] "Honestly the bigger move is the rate Janelle quoted you, which is 12 basis points better than what you came in with. That saves you thousands more than the grants over the life of the loan. Take both — don't let the grants distract from the rate question."</div>
+      </div>
+
+      <div class="callout">
+        <strong>Synthesis:</strong> You told the Carlsons about IHDA Access ($6K), Chicago BNDP ($5K), confirmed eligibility for both Apr 24, and framed the rate at First Citizens as more important than the grants. They have all three pieces of info.
+      </div>
+    </div>
+
+  <div class="next-step">
+    
+      <h3>What happens now</h3>
+      <p><strong>Use this however you need it.</strong> Javier can pull the same query. If Greg asks today "wait, what was that program again?" you've got it instantly. The corpus is searchable by client, date, topic, or natural-language question.</p>
+    
+  </div>
+
+  <div class="nav-foot">
+    <a href="daily-debrief.html">← Daily Debrief</a>
+    <a href="voice-capture.html">Voice Capture →</a>
+  </div>
+
+</div>
+
+</body>
+</html>

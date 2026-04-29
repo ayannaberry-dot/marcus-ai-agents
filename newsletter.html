@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Newsletter — Example · Marcus's Team</title>
+<style>
+:root {
+  --bg: #f7f3ec;
+  --ink: #1a1f2b;
+  --muted: #5a6478;
+  --accent: #c4541b;
+  --accent-soft: #f5e3d6;
+  --navy: #1f3354;
+  --navy-soft: #e3e8f1;
+  --green: #2f6d4f;
+  --green-soft: #dceee4;
+  --card: #ffffff;
+  --border: #e3ddd0;
+  --shadow: 0 1px 2px rgba(20, 25, 35, 0.04), 0 8px 24px rgba(20, 25, 35, 0.06);
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.55; font-size: 16px;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 24px 24px 80px; }
+.topbar {
+  background: var(--navy); color: #f7f3ec; padding: 14px 0;
+}
+.topbar .inner {
+  max-width: 880px; margin: 0 auto; padding: 0 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap;
+}
+.topbar a { color: #ffb079; text-decoration: none; font-weight: 600; font-size: 14px; }
+.topbar a:hover { text-decoration: underline; }
+.crumb { color: #d8dde8; font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; }
+header.page {
+  margin-top: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--border);
+}
+.eyebrow {
+  text-transform: uppercase; letter-spacing: 0.1em; font-size: 11px;
+  color: var(--accent); font-weight: 700; margin-bottom: 8px;
+}
+h1 { font-size: 34px; line-height: 1.15; margin: 0 0 10px; letter-spacing: -0.02em; }
+.tagline { color: var(--muted); margin: 0; font-size: 17px; }
+.who-bar {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px;
+}
+.pill {
+  display: inline-block; font-size: 12px; font-weight: 600;
+  padding: 4px 10px; border-radius: 999px;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.pill.javier { background: var(--green-soft); color: var(--green); }
+.pill.marcus { background: var(--accent-soft); color: var(--accent); }
+.pill.system { background: var(--navy-soft); color: var(--navy); }
+.section-label {
+  font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em;
+  font-weight: 700; color: var(--muted); margin: 32px 0 8px;
+}
+.you-said {
+  background: #f4f0e6; border-left: 4px solid var(--accent);
+  border-radius: 0 12px 12px 0; padding: 16px 18px;
+  font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 15px;
+}
+.you-said::before { content: "👋  "; font-family: -apple-system, sans-serif; }
+.output {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 24px; box-shadow: var(--shadow);
+  margin-top: 8px;
+}
+.output h2 { margin-top: 0; font-size: 20px; }
+.output h3 {
+  font-size: 16px; margin: 20px 0 6px;
+  color: var(--navy); letter-spacing: -0.01em;
+}
+.output p { margin: 0 0 12px; }
+.output ul, .output ol { padding-left: 22px; margin: 0 0 12px; }
+.output li { margin-bottom: 6px; }
+.email {
+  background: #fafaf6; border: 1px solid var(--border); border-radius: 8px;
+  padding: 16px 18px; margin: 8px 0; font-size: 15px;
+}
+.email .meta { color: var(--muted); font-size: 13px; margin-bottom: 10px; }
+.email .meta strong { color: var(--ink); }
+.email .body { white-space: pre-wrap; line-height: 1.55; }
+.kv { display: grid; grid-template-columns: 160px 1fr; gap: 8px 16px; margin: 8px 0 16px; }
+.kv dt { color: var(--muted); font-size: 14px; }
+.kv dd { margin: 0; font-size: 15px; }
+table.data {
+  width: 100%; border-collapse: collapse; margin: 8px 0 16px; font-size: 14px;
+}
+table.data th, table.data td {
+  text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border);
+}
+table.data th { background: #faf6ee; color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+table.data tr:last-child td { border-bottom: none; }
+.callout {
+  background: var(--accent-soft); border-radius: 10px;
+  padding: 14px 16px; margin: 14px 0;
+  font-size: 14.5px; color: var(--ink);
+}
+.callout strong { color: var(--accent); }
+.flag {
+  background: #fff5e6; border-left: 3px solid #d18a2a;
+  padding: 10px 14px; border-radius: 0 8px 8px 0;
+  margin: 12px 0; font-size: 14.5px;
+}
+.next-step {
+  background: var(--navy); color: #f7f3ec; border-radius: 14px;
+  padding: 20px 24px; margin-top: 32px;
+}
+.next-step h3 { color: #ffb079; margin: 0 0 8px; font-size: 16px; }
+.next-step p { margin: 0; color: #d8dde8; }
+.next-step strong { color: #fff; }
+.nav-foot {
+  display: flex; justify-content: space-between; gap: 12px;
+  margin-top: 36px; padding-top: 20px; border-top: 1px solid var(--border);
+  font-size: 14px;
+}
+.nav-foot a { color: var(--accent); text-decoration: none; font-weight: 600; }
+.nav-foot a:hover { text-decoration: underline; }
+.diff-add { color: var(--green); }
+.diff-flag { color: var(--accent); font-weight: 600; }
+code.inline {
+  background: #f4f0e6; padding: 2px 6px; border-radius: 4px;
+  font-size: 13.5px;
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="inner">
+    <span class="crumb">05 · Marketing & Brand</span>
+    <a href="../marcus-team-overview.html">← Back to your team</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header class="page">
+    <div class="eyebrow">05 · Marketing & Brand</div>
+    <h1>Newsletter</h1>
+    <p class="tagline">Drafts your monthly sphere newsletter — your intro pulled from real moments, market recap, 2–3 neighborhood angles.</p>
+    <div class="who-bar"><span class="pill javier">Javier sends</span><span class="pill system">Voice-checked</span></div>
+  </header>
+
+  <div class="section-label">What you'd say</div>
+  <div class="you-said">"Start the May newsletter draft."</div>
+
+  <div class="section-label">What the helper produces</div>
+  <div class="output">
+      <h2>Marcus's May 2026 newsletter — draft</h2>
+      <p style="color:var(--muted);">Sphere of 480 contacts · Send target: first Tue of month, May 5</p>
+
+      <h3>Subject line options</h3>
+      <ul>
+        <li><strong>A:</strong> "Why I told a buyer to walk away last week"</li>
+        <li><strong>B:</strong> "May market notes from the road"</li>
+        <li><strong>C:</strong> "Three Chicago blocks worth knowing about right now"</li>
+      </ul>
+      <p style="color:var(--muted);">Recommend A. Highest-engagement category in your last 12 newsletters has been "story-led + lesson," not "market data."</p>
+
+      <h3>Newsletter body</h3>
+      <div class="email">
+        <div class="body">Hi all —
+
+Last Saturday I was in a kitchen in Lincoln Park with a buyer who'd fallen in love with the house. The light, the layout, the block — all of it.
+
+Then we went to the basement and I told her to walk away.
+
+It wasn't the basement that was the problem. It was that the smell of damp told me a story the listing didn't, and the price didn't reflect what fixing that story would cost. She didn't want to hear it. I would've made the commission either way. But buying a house with a hidden water history at the top of a market like this one, in your first home, isn't the kind of decision I want a client of mine to make on a Saturday morning.
+
+She walked. Three days later we had a different property under contract — better block, better bones, no hidden story.
+
+That's the part of this job that doesn't show up on Zillow.
+
+<strong>The May market read:</strong>
+• Median price in Chicago city: $355K, up 2.1% YoY
+• Days on market: 23 (down from 31 last May)
+• Inventory still tight everywhere under $500K — biggest mismatch in West Loop and Lakeview
+• Detached single-family in Ravenswood / North Center: still moving in 2 weeks at list
+
+<strong>Three blocks I've been watching this month:</strong>
+• <strong>Wrightwood west of Sheffield (Lincoln Park):</strong> the quieter half. Three solid listings cleared in 30 days. Underrated.
+• <strong>Hermitage near Lawrence (Ravenswood):</strong> reno inventory finally hit, and pricing is honest. Best entry into Ravenswood right now.
+• <strong>Adams between Ashland and Loomis (West Loop):</strong> if you've been priced out of West Loop south, this stretch is sneaking under $475K for 1-bds.
+
+If you're thinking about a move this summer or know someone who is, reply to this and we'll talk. The market is moving differently than it looks from the outside.
+
+— Marcus</div>
+      </div>
+
+      <div class="callout">
+        <strong>Where the intro story came from:</strong> Pulled from your Apr 26 voice memo about the Henderson basement showing — only the parts that don't identify the buyer. Carrie's pseudonym ("a buyer") preserves anonymity.
+      </div>
+    </div>
+
+  <div class="next-step">
+    
+      <h3>What happens now</h3>
+      <p><strong>You review, choose subject line, edit if needed, Javier sends Tuesday 7 AM.</strong> Replies route into your inbox. Past-client referral conversations that come out of this go straight into the referral tracker.</p>
+    
+  </div>
+
+  <div class="nav-foot">
+    <a href="marcus-voice.html">← Marcus Voice</a>
+    <a href="linkedin-post.html">LinkedIn Post →</a>
+  </div>
+
+</div>
+
+</body>
+</html>

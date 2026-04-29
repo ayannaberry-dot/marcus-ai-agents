@@ -1,0 +1,1650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Team — Marcus's AI Operating System</title>
+<style>
+  :root {
+    --bg: #f7f3ec;
+    --ink: #1a1f2b;
+    --muted: #5a6478;
+    --accent: #c4541b;
+    --accent-soft: #f5e3d6;
+    --navy: #1f3354;
+    --navy-soft: #e3e8f1;
+    --green: #2f6d4f;
+    --green-soft: #dceee4;
+    --card: #ffffff;
+    --border: #e3ddd0;
+    --shadow: 0 1px 2px rgba(20, 25, 35, 0.04), 0 8px 24px rgba(20, 25, 35, 0.06);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.55;
+    font-size: 17px;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 32px 24px 80px; }
+  header.hero {
+    padding: 56px 24px 48px;
+    background: linear-gradient(160deg, #1f3354 0%, #2a4570 100%);
+    color: #f7f3ec;
+  }
+  header.hero .inner { max-width: 1080px; margin: 0 auto; }
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent-soft);
+    margin-bottom: 12px;
+  }
+  h1 {
+    font-size: 44px;
+    line-height: 1.1;
+    margin: 0 0 16px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  h1 span { color: #ffb079; }
+  .lede {
+    font-size: 19px;
+    max-width: 720px;
+    color: #d8dde8;
+    margin: 0;
+  }
+  h2 {
+    font-size: 28px;
+    margin: 48px 0 8px;
+    letter-spacing: -0.01em;
+  }
+  h2 .num {
+    color: var(--accent);
+    font-weight: 600;
+    margin-right: 10px;
+  }
+  h3 {
+    font-size: 20px;
+    margin: 0 0 6px;
+  }
+  p { margin: 0 0 14px; }
+  .section-sub {
+    color: var(--muted);
+    margin-bottom: 24px;
+    font-size: 16px;
+  }
+
+  /* The "How this works" mental model */
+  .mental-model {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    margin: 32px 0 0;
+    box-shadow: var(--shadow);
+  }
+  .mental-model .row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+  }
+  .mental-model .step {
+    border-left: 3px solid var(--accent);
+    padding: 4px 0 4px 16px;
+  }
+  .mental-model .step strong { display: block; font-size: 17px; margin-bottom: 4px; }
+  .mental-model .step span { color: var(--muted); font-size: 15px; }
+  @media (max-width: 720px) {
+    .mental-model .row { grid-template-columns: 1fr; }
+  }
+
+  /* Start here block */
+  .start-here {
+    background: var(--accent-soft);
+    border: 1px solid #e8c8b1;
+    border-radius: 16px;
+    padding: 28px;
+    margin: 24px 0;
+  }
+  .start-here h2 { margin-top: 0; }
+  .start-here ol { padding-left: 22px; margin: 8px 0 0; }
+  .start-here li { margin-bottom: 12px; }
+  .start-here li strong { color: var(--accent); }
+
+  /* Setup guide block */
+  .setup-guide {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    margin: 32px 0 16px;
+    box-shadow: var(--shadow);
+  }
+  .setup-guide h2 { margin-top: 0; }
+  .setup-guide .lead {
+    color: var(--muted);
+    margin-bottom: 18px;
+  }
+  .setup-guide .skip {
+    background: var(--navy-soft);
+    color: var(--navy);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 14px;
+    margin-bottom: 22px;
+  }
+  .setup-guide .skip a { color: var(--accent); font-weight: 600; }
+  .setup-step {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 18px;
+    padding: 18px 0;
+    border-top: 1px solid var(--border);
+  }
+  .setup-step:first-of-type { border-top: none; padding-top: 8px; }
+  .setup-step .num-circle {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .setup-step h3 {
+    margin: 4px 0 8px;
+    font-size: 19px;
+  }
+  .setup-step p { margin: 0 0 10px; }
+  .setup-step ul { padding-left: 20px; margin: 6px 0 10px; }
+  .setup-step li { margin-bottom: 6px; }
+  .setup-step .time {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    background: var(--accent-soft);
+    color: var(--accent);
+    padding: 2px 8px;
+    border-radius: 999px;
+    margin-left: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    vertical-align: middle;
+  }
+  .setup-step code {
+    background: #f4f0e6;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 13.5px;
+  }
+  .connector-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+    font-size: 14.5px;
+  }
+  .connector-table th, .connector-table td {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .connector-table th {
+    background: #faf6ee;
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .connector-table .tier {
+    font-weight: 600;
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .connector-table .tier.must { background: var(--accent-soft); color: var(--accent); }
+  .connector-table .tier.should { background: var(--navy-soft); color: var(--navy); }
+  .connector-table .tier.nice { background: var(--green-soft); color: var(--green); }
+  .connector-table .method {
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .setup-troubleshoot {
+    background: #faf6ee;
+    border-left: 3px solid var(--accent);
+    border-radius: 0 10px 10px 0;
+    padding: 14px 18px;
+    margin-top: 24px;
+    font-size: 14.5px;
+  }
+  .setup-troubleshoot strong { color: var(--accent); }
+
+  /* Directorate sections */
+  .directorate { margin-top: 56px; }
+  .directorate-header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .pill {
+    display: inline-block;
+    background: var(--navy-soft);
+    color: var(--navy);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .pill.javier { background: var(--green-soft); color: var(--green); }
+  .pill.marcus { background: var(--accent-soft); color: var(--accent); }
+
+  /* Agent cards */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-top: 16px;
+  }
+  @media (max-width: 720px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+  }
+  .card .who {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+  .card h3 { font-size: 19px; }
+  .card .does {
+    color: var(--ink);
+    font-size: 15.5px;
+    margin-bottom: 14px;
+  }
+  .card .row-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-top: 12px;
+    margin-bottom: 4px;
+  }
+  .card .when {
+    font-size: 14.5px;
+    color: var(--muted);
+    font-style: italic;
+  }
+  .say {
+    background: #f4f0e6;
+    border-left: 3px solid var(--accent);
+    padding: 10px 12px;
+    border-radius: 0 8px 8px 0;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 14px;
+    color: var(--ink);
+    margin-top: 4px;
+  }
+  .say::before {
+    content: "👋 ";
+    font-family: -apple-system, sans-serif;
+  }
+
+  /* Cheat sheet */
+  .cheat {
+    background: var(--navy);
+    color: #f7f3ec;
+    border-radius: 16px;
+    padding: 32px;
+    margin-top: 56px;
+  }
+  .cheat h2 { color: #ffb079; margin-top: 0; }
+  .cheat table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+    font-size: 15px;
+  }
+  .cheat th, .cheat td {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid #34507a;
+  }
+  .cheat th { color: #ffb079; font-weight: 600; }
+  .cheat td:first-child { font-weight: 600; white-space: nowrap; }
+  .cheat td code {
+    background: #34507a;
+    color: #ffd9bf;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 13.5px;
+  }
+
+  /* FAQ */
+  .faq { margin-top: 48px; }
+  details {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 10px;
+    box-shadow: var(--shadow);
+  }
+  details summary {
+    font-weight: 600;
+    font-size: 17px;
+    cursor: pointer;
+    list-style: none;
+    color: var(--ink);
+  }
+  details[open] summary { margin-bottom: 12px; }
+  details summary::-webkit-details-marker { display: none; }
+  details summary::after { content: "  +"; color: var(--accent); font-weight: 700; float: right; }
+  details[open] summary::after { content: "  −"; }
+
+  /* Footer */
+  footer {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  /* Two-humans table */
+  .humans-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+    background: var(--card);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+  }
+  .humans-table th, .humans-table td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    font-size: 15px;
+  }
+  .humans-table th { background: #faf6ee; font-weight: 600; color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .humans-table tr:last-child td { border-bottom: none; }
+
+  /* Map of pain to agent */
+  .pain-map {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-top: 16px;
+    box-shadow: var(--shadow);
+  }
+  .pain-row {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    border-bottom: 1px solid var(--border);
+  }
+  .pain-row:last-child { border-bottom: none; }
+  .pain-row .said {
+    padding: 14px 18px;
+    color: var(--ink);
+    font-style: italic;
+    background: #faf6ee;
+  }
+  .pain-row .owner {
+    padding: 14px 18px;
+    color: var(--navy);
+    font-weight: 600;
+  }
+  .pain-row .owner span {
+    display: block;
+    color: var(--muted);
+    font-weight: 400;
+    font-style: normal;
+    font-size: 13.5px;
+    margin-top: 2px;
+  }
+  @media (max-width: 720px) {
+    .pain-row { grid-template-columns: 1fr; }
+    .pain-row .said { border-bottom: 1px dashed var(--border); }
+  }
+
+  /* Dropdown hierarchy nav */
+  .all-helpers {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px 28px;
+    margin: 32px 0;
+    box-shadow: var(--shadow);
+  }
+  .all-helpers h2 { margin-top: 0; }
+  .all-helpers .intro {
+    color: var(--muted);
+    margin-bottom: 18px;
+  }
+  .hierarchy details {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 8px;
+    background: #faf6ee;
+    padding: 0;
+  }
+  .hierarchy details[open] { background: #fff; }
+  .hierarchy summary {
+    cursor: pointer;
+    list-style: none;
+    padding: 12px 18px;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--navy);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .hierarchy summary::-webkit-details-marker { display: none; }
+  .hierarchy summary::after {
+    content: "+";
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 18px;
+    margin-left: 8px;
+  }
+  .hierarchy details[open] summary::after { content: "−"; }
+  .hierarchy summary .count {
+    background: var(--navy-soft);
+    color: var(--navy);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 999px;
+    margin-left: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .hierarchy summary .label-left { display: flex; align-items: center; gap: 4px; }
+  .hierarchy ul {
+    list-style: none;
+    padding: 0 18px 14px;
+    margin: 0;
+    border-top: 1px solid var(--border);
+  }
+  .hierarchy ul li {
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--border);
+    display: grid;
+    grid-template-columns: 180px 1fr auto;
+    gap: 16px;
+    align-items: baseline;
+  }
+  .hierarchy ul li:last-child { border-bottom: none; }
+  .hierarchy ul li .name a {
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .hierarchy ul li .name a:hover { color: var(--accent); }
+  .hierarchy ul li .desc {
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .hierarchy ul li .ex-link a {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .hierarchy ul li .ex-link a:hover { text-decoration: underline; }
+  @media (max-width: 720px) {
+    .hierarchy ul li {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+    .hierarchy ul li .ex-link a { font-size: 14px; }
+  }
+
+
+  /* Org view (new) */
+  .org-view { /* shares .all-helpers container styles */ }
+  .org-tree details {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 10px;
+    background: #faf6ee;
+  }
+  .org-tree details[open] { background: #fff; }
+  .org-tree summary {
+    cursor: pointer;
+    list-style: none;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .org-tree summary::-webkit-details-marker { display: none; }
+  .org-tree summary::after {
+    content: "+";
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 22px;
+    margin-left: auto;
+    padding-left: 12px;
+  }
+  .org-tree details[open] summary::after { content: "−"; }
+  .org-tree .person-circle {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 19px;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .org-tree .person-circle.marcus { background: var(--accent); }
+  .org-tree .person-circle.javier { background: var(--green); }
+  .org-tree .person-circle.system { background: var(--navy); }
+  .org-tree .person-meta { flex: 1; min-width: 0; }
+  .org-tree .person-meta .name {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0;
+  }
+  .org-tree .person-meta .role {
+    font-size: 13px;
+    color: var(--muted);
+    margin: 2px 0 0;
+  }
+  .org-tree .person-count {
+    background: var(--navy-soft);
+    color: var(--navy);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+  .org-tree details.marcus .person-count { background: var(--accent-soft); color: var(--accent); }
+  .org-tree details.javier .person-count { background: var(--green-soft); color: var(--green); }
+  .org-tree details.system .person-count { background: var(--navy-soft); color: var(--navy); }
+  .org-tree ul {
+    list-style: none;
+    padding: 0 18px 14px 76px;
+    margin: 0;
+  }
+  .org-tree ul li {
+    padding: 9px 0;
+    border-bottom: 1px dashed var(--border);
+    display: grid;
+    grid-template-columns: 1.1fr 1fr auto;
+    gap: 16px;
+    align-items: baseline;
+    position: relative;
+  }
+  .org-tree ul li:last-child { border-bottom: none; }
+  .org-tree ul li::before {
+    content: "";
+    position: absolute;
+    left: -22px;
+    top: 16px;
+    width: 14px;
+    height: 1px;
+    background: var(--border);
+  }
+  .org-tree ul li .name a {
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .org-tree ul li .name a:hover { color: var(--accent); }
+  .org-tree ul li .role-tag {
+    color: var(--muted);
+    font-size: 13.5px;
+    font-style: italic;
+  }
+  .org-tree ul li .ex-link a {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .org-tree ul li .ex-link a:hover { text-decoration: underline; }
+  .org-tree .group-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 14px 0 6px;
+    padding-left: 0;
+  }
+  @media (max-width: 720px) {
+    .org-tree ul { padding-left: 28px; }
+    .org-tree ul li {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+    .org-tree ul li::before { display: none; }
+  }
+
+  /* Example link on each card */
+  .example-link {
+    display: inline-block;
+    margin-top: 14px;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+  .example-link:hover { text-decoration: underline; }
+
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="inner">
+    <div class="eyebrow">Built for Marcus · v0.1</div>
+    <h1>Your team. <span>Your way.</span></h1>
+    <p class="lede">
+      You and Javier already do the work of a 5-person brokerage. This is the system
+      that makes it feel that way to your clients — without you typing more emails or
+      missing a call back. Everything here either takes work off your plate, or makes
+      sure no one feels ghosted while you're in another showing.
+    </p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- THE MENTAL MODEL -->
+  <section>
+    <h2>How to think about this in 60 seconds</h2>
+    <p class="section-sub">Read this part once. The rest is reference.</p>
+
+    <div class="mental-model">
+      <p style="margin:0 0 4px; font-size:18px;"><strong>It's a team of helpers, not a piece of software.</strong></p>
+      <p style="margin:0; color:var(--muted);">
+        Each helper has one job — like a small staff. You don't have to "open" anything.
+        Most of the time, you talk into your pocketAI, or you say one phrase to your phone,
+        and the right helper picks it up. Javier reviews and sends.
+      </p>
+      <div class="row">
+        <div class="step">
+          <strong>1. You talk.</strong>
+          <span>Phone calls + in-person convos (with consent) get recorded by your pocketAI. That's the raw material.</span>
+        </div>
+        <div class="step">
+          <strong>2. Helpers sort it.</strong>
+          <span>The right helper turns the conversation into a draft, a follow-up, a TODO, or a client note.</span>
+        </div>
+        <div class="step">
+          <strong>3. A human sends it.</strong>
+          <span>Operational stuff → Javier hits send. Relational stuff → you hit send. Nothing goes out without one of you reviewing.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- START HERE -->
+  <section class="start-here" id="start-here">
+    <h2>Start here. Just these three things in week 1.</h2>
+    <p style="margin-bottom:8px;">If you only do these three, the system pays for itself. Everything else can wait until you bump into a need for it.</p>
+    <ol>
+      <li>
+        <strong>Wear your pocketAI every day.</strong> Don't think about it. The whole system runs on what it captures. Just remember: in-person conversations need a quick "hey, mind if I record this for my notes?" — that's Illinois law and the consent script lives in <em>your team's pocketAI helper</em>.
+      </li>
+      <li>
+        <strong>Use the morning Daily Debrief.</strong> While you're brushing your teeth, say <em>"start my debrief."</em> It will walk you through your active clients, what's slipping, and what one thing matters most today. This is the "AI that calls me" idea you wanted.
+      </li>
+      <li>
+        <strong>After every showing, say "log a quick debrief."</strong> 60 seconds. Address, client, gut take, one thing good, one thing bad, next step. The system files it under the right client and queues your follow-up draft before you even leave the parking spot.
+      </li>
+    </ol>
+  </section>
+
+  <!-- TEAM ORG VIEW -->
+  <section class="all-helpers org-view">
+    <h2>The team org — who reports to whom</h2>
+    <p class="intro">Two humans run this team. 31 helpers report up to them. Click any node to see what each person owns. The other view (below) groups the same helpers by directorate / function.</p>
+    <div class="org-tree">
+      <details class="marcus" open>
+        <summary>
+          <div class="person-circle marcus">M</div>
+          <div class="person-meta">
+            <p class="name">Marcus Mason</p>
+            <p class="role">Broker · head of the team · sends what's relational</p>
+          </div>
+          <span class="person-count">9 helpers + 4 mobile</span>
+        </summary>
+        <p class="group-label" style="padding-left:0; margin-left:18px;">Helpers Marcus sends or uses directly</p>
+        <ul>
+        <li><span class="name"><a href="examples/offer-strategist.html">Offer Strategist</a></span><span class="role-tag">Drafts offer + cover memo · you send</span><span class="ex-link"><a href="examples/offer-strategist.html">See example →</a></span></li>
+        <li><span class="name"><a href="examples/showing-debrief.html">Showing Debrief</a></span><span class="role-tag">Captures buyer read · you send the follow-up</span><span class="ex-link"><a href="examples/showing-debrief.html">See example →</a></span></li>
+        <li><span class="name"><a href="examples/grant-program-tracker.html">Grant Program Tracker</a></span><span class="role-tag">Live DPA + closing-cost intel · you decide what to surface</span><span class="ex-link"><a href="examples/grant-program-tracker.html">See example →</a></span></li>
+        <li><span class="name"><a href="examples/cma.html">CMA</a></span><span class="role-tag">Listing-presentation comp analysis · you present</span><span class="ex-link"><a href="examples/cma.html">See example →</a></span></li>
+        <li><span class="name"><a href="examples/attorney-handoff.html">Attorney Handoff</a></span><span class="role-tag">Sets attorney-rhythm expectations · you send</span><span class="ex-link"><a href="examples/attorney-handoff.html">See example →</a></span></li>
+        <li><span class="name"><a href="examples/dead-zone-comms.html">Dead-Zone Comms</a></span><span class="role-tag">Proactive check-in during quiet stretches · you send</span><span class="ex-link"><a href="examples/dead-zone-comms.html">See example →</a></span></li>
+        <li><span class="name"><a href="examples/expectation-setter.html">Expectation Setter</a></span><span class="role-tag">Front-loads transition moments · you send</span><span class="ex-link"><a href="examples/expectation-setter.html">See example →</a></span></li>
+        <li><span class="name"><a href="examples/daily-debrief.html">Daily Debrief</a></span><span class="role-tag">Hands-free morning conversation · you talk to it</span><span class="ex-link"><a href="examples/daily-debrief.html">See example →</a></span></li>
+        <li><span class="name"><a href="examples/voice-capture.html">Voice Capture</a></span><span class="role-tag">Captures parking-lot bursts · you talk, it files</span><span class="ex-link"><a href="examples/voice-capture.html">See example →</a></span></li>
+        </ul>
+        <p class="group-label" style="padding-left:0; margin-left:18px;">Mobile fast-capture commands (Marcus only)</p>
+        <ul>
+        <li><span class="name"><a href="examples/log-decision.html">"Log a decision."</a></span><span class="role-tag">60-sec capture of a business call</span><span class="ex-link"><a href="examples/log-decision.html">See example →</a></span></li>
+        <li><span class="name"><a href="examples/client-touch.html">"Quick client touch."</a></span><span class="role-tag">Capture interactions pocketAI missed</span><span class="ex-link"><a href="examples/client-touch.html">See example →</a></span></li>
+        <li><span class="name"><a href="examples/quick-debrief.html">"Quick debrief."</a></span><span class="role-tag">60-sec post-showing dump</span><span class="ex-link"><a href="examples/quick-debrief.html">See example →</a></span></li>
+        <li><span class="name"><a href="examples/voice-memo-dump.html">"Voice memo dump."</a></span><span class="role-tag">Talk 30–90 sec; system parses + routes</span><span class="ex-link"><a href="examples/voice-memo-dump.html">See example →</a></span></li>
+        </ul>
+      </details>
+      <details class="javier">
+        <summary>
+          <div class="person-circle javier">J</div>
+          <div class="person-meta">
+            <p class="name">Javier (part-time VA)</p>
+            <p class="role">Operations spine · sends what's operational · runs the day-to-day</p>
+          </div>
+          <span class="person-count">15 helpers</span>
+        </summary>
+        <p class="group-label" style="padding-left:0; margin-left:18px;">Helpers Javier runs or sends</p>
+        <ul>
+        <li><span class="name"><a href="examples/tour-builder.html">Tour Builder</a></span><span class="role-tag">Routes Saturday tours · Javier sends</span><span class="ex-link"><a href="examples/tour-builder.html">See example →</a></span></li>
+        <li><span class="name"><a href="examples/buyer-faq.html">Buyer FAQ</a></span><span class="role-tag">Drafts recurring buyer Q&amp;A · Javier sends</span><span class="ex-link"><a href="examples/buyer-faq.html">See example →</a></span></li>
+        <li><span class="name"><a href="examples/search-activity-monitor.html">Search Activity Monitor</a></span><span class="role-tag">Friday buyer recap · Javier sends</span><span class="ex-link"><a href="examples/search-activity-monitor.html">See example →</a></span></li>
+        <li><span class="name"><a href="examples/listing-prep.html">Listing Prep</a></span><span class="role-tag">14-day pre-list timeline · Javier executes</span><span class="ex-link"><a href="examples/listing-prep.html">See example →</a></span></li>
+        <li><span class="name"><a href="examples/listing-marketing.html">Listing Marketing</a></span><span class="role-tag">MLS copy + 14-day plan · Javier sends</span><span class="ex-link"><a href="examples/listing-marketing.html">See example →</a></span></li>
+        <li><span class="name"><a href="examples/showings-host.html">Showings Host</a></span><span class="role-tag">Buyer-agent feedback rollup · Javier runs</span><span class="ex-link"><a href="examples/showings-host.html">See example →</a></span></li>
+        <li><span class="name"><a href="examples/inspection-handoff.html">Inspection Handoff</a></span><span class="role-tag">Schedules + preps · Javier coordinates, Marcus quarterbacks</span><span class="ex-link"><a href="examples/inspection-handoff.html">See example →</a></span></li>
+        <li><span class="name"><a href="examples/lender-handoff.html">Lender Handoff</a></span><span class="role-tag">Tracks pre-approval + deadlines · Javier coordinates</span><span class="ex-link"><a href="examples/lender-handoff.html">See example →</a></span></li>
+        <li><span class="name"><a href="examples/under-contract-orchestrator.html">Under-Contract Orchestrator</a></span><span class="role-tag">Daily deal status · Javier monitors</span><span class="ex-link"><a href="examples/under-contract-orchestrator.html">See example →</a></span></li>
+        <li><span class="name"><a href="examples/weekly-client-digest.html">Weekly Client Digest</a></span><span class="role-tag">Friday digest across clients · Javier sends</span><span class="ex-link"><a href="examples/weekly-client-digest.html">See example →</a></span></li>
+        <li><span class="name"><a href="examples/newsletter.html">Newsletter</a></span><span class="role-tag">Monthly sphere newsletter · Javier sends</span><span class="ex-link"><a href="examples/newsletter.html">See example →</a></span></li>
+        <li><span class="name"><a href="examples/linkedin-post.html">LinkedIn Post</a></span><span class="role-tag">Real-moment-anchored posts · Javier sends</span><span class="ex-link"><a href="examples/linkedin-post.html">See example →</a></span></li>
+        <li><span class="name"><a href="examples/market-report.html">Market Report</a></span><span class="role-tag">Monthly Chicago data · Javier runs</span><span class="ex-link"><a href="examples/market-report.html">See example →</a></span></li>
+        <li><span class="name"><a href="examples/email-triage.html">Email Triage</a></span><span class="role-tag">Inbox sort + FAQ pre-drafts · Javier runs</span><span class="ex-link"><a href="examples/email-triage.html">See example →</a></span></li>
+        <li><span class="name"><a href="examples/sop-library.html">SOP Library</a></span><span class="role-tag">Written-down SOPs · Javier consults</span><span class="ex-link"><a href="examples/sop-library.html">See example →</a></span></li>
+        </ul>
+      </details>
+      <details class="system">
+        <summary>
+          <div class="person-circle system">S</div>
+          <div class="person-meta">
+            <p class="name">Shared backbone</p>
+            <p class="role">Always-on system layer · used by both Marcus and Javier</p>
+          </div>
+          <span class="person-count">3 always-on</span>
+        </summary>
+        <ul>
+        <li><span class="name"><a href="examples/marcus-voice.html">Marcus Voice</a></span><span class="role-tag">Gatekeeper · runs on every customer-facing draft</span><span class="ex-link"><a href="examples/marcus-voice.html">See example →</a></span></li>
+        <li><span class="name"><a href="examples/pocketai-feed.html">pocketAI Feed</a></span><span class="role-tag">The spine · ingests + routes every recording</span><span class="ex-link"><a href="examples/pocketai-feed.html">See example →</a></span></li>
+        <li><span class="name"><a href="examples/referral-network.html">Referral Network</a></span><span class="role-tag">Canonical lender / attorney / inspector list · both reference</span><span class="ex-link"><a href="examples/referral-network.html">See example →</a></span></li>
+        </ul>
+      </details>
+    </div>
+  </section>
+
+<section class="all-helpers">
+<h2>All 31 helpers — by directorate</h2>
+<p class="intro">Same 31 helpers, grouped by what they do (rather than by who owns them). Click any directorate to expand and see all helpers with their example pages.</p>
+<div class="hierarchy">
+<details><summary><span class="label-left"><strong>01</strong>&nbsp;&nbsp;The Buyer Side</span><span class="count">6 helpers</span></summary>
+<ul>
+<li><span class="name"><a href="examples/tour-builder.html">Tour Builder</a></span><span class="desc">Multi-property routing with parking + agent comms</span><span class="ex-link"><a href="examples/tour-builder.html">See example →</a></span></li>
+<li><span class="name"><a href="examples/buyer-faq.html">Buyer FAQ</a></span><span class="desc">Drafts replies to recurring buyer questions</span><span class="ex-link"><a href="examples/buyer-faq.html">See example →</a></span></li>
+<li><span class="name"><a href="examples/offer-strategist.html">Offer Strategist</a></span><span class="desc">Drafts offer + cover memo to listing agent</span><span class="ex-link"><a href="examples/offer-strategist.html">See example →</a></span></li>
+<li><span class="name"><a href="examples/search-activity-monitor.html">Search Activity Monitor</a></span><span class="desc">Friday weekly recap to every active buyer</span><span class="ex-link"><a href="examples/search-activity-monitor.html">See example →</a></span></li>
+<li><span class="name"><a href="examples/showing-debrief.html">Showing Debrief</a></span><span class="desc">Captures buyer's read + queues your follow-up</span><span class="ex-link"><a href="examples/showing-debrief.html">See example →</a></span></li>
+<li><span class="name"><a href="examples/grant-program-tracker.html">Grant Program Tracker</a></span><span class="desc">Live DPA + closing-cost program database</span><span class="ex-link"><a href="examples/grant-program-tracker.html">See example →</a></span></li>
+</ul></details>
+<details><summary><span class="label-left"><strong>02</strong>&nbsp;&nbsp;The Seller Side</span><span class="count">4 helpers</span></summary>
+<ul>
+<li><span class="name"><a href="examples/cma.html">CMA</a></span><span class="desc">Comparative market analysis with your qualitative read</span><span class="ex-link"><a href="examples/cma.html">See example →</a></span></li>
+<li><span class="name"><a href="examples/listing-prep.html">Listing Prep</a></span><span class="desc">14-day pre-list countdown to active MLS</span><span class="ex-link"><a href="examples/listing-prep.html">See example →</a></span></li>
+<li><span class="name"><a href="examples/listing-marketing.html">Listing Marketing</a></span><span class="desc">MLS copy + 14-day marketing sequence</span><span class="ex-link"><a href="examples/listing-marketing.html">See example →</a></span></li>
+<li><span class="name"><a href="examples/showings-host.html">Showings Host</a></span><span class="desc">Manages showing requests + buyer-agent feedback</span><span class="ex-link"><a href="examples/showings-host.html">See example →</a></span></li>
+</ul></details>
+<details><summary><span class="label-left"><strong>03</strong>&nbsp;&nbsp;Under Contract → Closing</span><span class="count">4 helpers</span></summary>
+<ul>
+<li><span class="name"><a href="examples/attorney-handoff.html">Attorney Handoff</a></span><span class="desc">Sets client expectations on attorney rhythm</span><span class="ex-link"><a href="examples/attorney-handoff.html">See example →</a></span></li>
+<li><span class="name"><a href="examples/inspection-handoff.html">Inspection Handoff</a></span><span class="desc">Schedules inspection + post-inspection playbook</span><span class="ex-link"><a href="examples/inspection-handoff.html">See example →</a></span></li>
+<li><span class="name"><a href="examples/lender-handoff.html">Lender Handoff</a></span><span class="desc">Tracks pre-approval + financing deadlines</span><span class="ex-link"><a href="examples/lender-handoff.html">See example →</a></span></li>
+<li><span class="name"><a href="examples/under-contract-orchestrator.html">Under-Contract Orchestrator</a></span><span class="desc">Daily status across every active deal</span><span class="ex-link"><a href="examples/under-contract-orchestrator.html">See example →</a></span></li>
+</ul></details>
+<details><summary><span class="label-left"><strong>04</strong>&nbsp;&nbsp;Talking to Clients</span><span class="count">3 helpers</span></summary>
+<ul>
+<li><span class="name"><a href="examples/dead-zone-comms.html">"No update is an update" check-in</a></span><span class="desc">Proactive message during quiet stretches</span><span class="ex-link"><a href="examples/dead-zone-comms.html">See example →</a></span></li>
+<li><span class="name"><a href="examples/expectation-setter.html">Expectation Setter</a></span><span class="desc">Front-loads language at six transition moments</span><span class="ex-link"><a href="examples/expectation-setter.html">See example →</a></span></li>
+<li><span class="name"><a href="examples/weekly-client-digest.html">Weekly Client Digest</a></span><span class="desc">Friday status across every active client</span><span class="ex-link"><a href="examples/weekly-client-digest.html">See example →</a></span></li>
+</ul></details>
+<details><summary><span class="label-left"><strong>05</strong>&nbsp;&nbsp;Marketing & Voice</span><span class="count">4 helpers</span></summary>
+<ul>
+<li><span class="name"><a href="examples/marcus-voice.html">Marcus Voice</a></span><span class="desc">4-check filter on every customer-facing draft</span><span class="ex-link"><a href="examples/marcus-voice.html">See example →</a></span></li>
+<li><span class="name"><a href="examples/newsletter.html">Newsletter</a></span><span class="desc">Monthly sphere newsletter, story-led</span><span class="ex-link"><a href="examples/newsletter.html">See example →</a></span></li>
+<li><span class="name"><a href="examples/linkedin-post.html">LinkedIn Post</a></span><span class="desc">Real-moment-anchored LinkedIn drafts</span><span class="ex-link"><a href="examples/linkedin-post.html">See example →</a></span></li>
+<li><span class="name"><a href="examples/market-report.html">Market Report</a></span><span class="desc">Monthly Chicago market data, source of truth</span><span class="ex-link"><a href="examples/market-report.html">See example →</a></span></li>
+</ul></details>
+<details><summary><span class="label-left"><strong>06</strong>&nbsp;&nbsp;Your Second Brain</span><span class="count">6 helpers</span></summary>
+<ul>
+<li><span class="name"><a href="examples/daily-debrief.html">Daily Debrief</a></span><span class="desc">Hands-free morning conversation walking through deals</span><span class="ex-link"><a href="examples/daily-debrief.html">See example →</a></span></li>
+<li><span class="name"><a href="examples/pocketai-feed.html">pocketAI Feed</a></span><span class="desc">Searchable corpus of every call + consented convo</span><span class="ex-link"><a href="examples/pocketai-feed.html">See example →</a></span></li>
+<li><span class="name"><a href="examples/voice-capture.html">Voice Capture</a></span><span class="desc">Catches the bursts pocketAI doesn't</span><span class="ex-link"><a href="examples/voice-capture.html">See example →</a></span></li>
+<li><span class="name"><a href="examples/email-triage.html">Email Triage</a></span><span class="desc">Sorts inbox + pre-drafts FAQ replies</span><span class="ex-link"><a href="examples/email-triage.html">See example →</a></span></li>
+<li><span class="name"><a href="examples/referral-network.html">Referral Network</a></span><span class="desc">Lenders, attorneys, inspectors with your read on each</span><span class="ex-link"><a href="examples/referral-network.html">See example →</a></span></li>
+<li><span class="name"><a href="examples/sop-library.html">SOP Library</a></span><span class="desc">Written-down version of what's in your head</span><span class="ex-link"><a href="examples/sop-library.html">See example →</a></span></li>
+</ul></details>
+<details><summary><span class="label-left"><strong>07</strong>&nbsp;&nbsp;Your Mobile Shortcuts</span><span class="count">4 helpers</span></summary>
+<ul>
+<li><span class="name"><a href="examples/log-decision.html">"Log a decision."</a></span><span class="desc">60-sec capture of a non-trivial business call</span><span class="ex-link"><a href="examples/log-decision.html">See example →</a></span></li>
+<li><span class="name"><a href="examples/client-touch.html">"Quick client touch."</a></span><span class="desc">Capture interactions pocketAI missed</span><span class="ex-link"><a href="examples/client-touch.html">See example →</a></span></li>
+<li><span class="name"><a href="examples/quick-debrief.html">"Quick debrief."</a></span><span class="desc">60-sec post-showing dump before driving away</span><span class="ex-link"><a href="examples/quick-debrief.html">See example →</a></span></li>
+<li><span class="name"><a href="examples/voice-memo-dump.html">"Voice memo dump."</a></span><span class="desc">Talk 30–90 sec; system parses + routes</span><span class="ex-link"><a href="examples/voice-memo-dump.html">See example →</a></span></li>
+</ul></details>
+</div></section>
+
+
+  <!-- THE TWO HUMANS -->
+  <section>
+    <h2>You and Javier — who hits send</h2>
+    <p class="section-sub">Simple rule: <strong>Javier sends what's operational. You send what's relational.</strong> When in doubt, you send it.</p>
+    <table class="humans-table">
+      <thead>
+        <tr><th>The message</th><th>Drafted by</th><th>Sent by</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Tour request to a listing agent</td><td>Tour Builder</td><td>Javier</td></tr>
+        <tr><td>FAQ reply to a buyer</td><td>Buyer FAQ</td><td>Javier</td></tr>
+        <tr><td>Weekly client recap</td><td>Search Activity Monitor</td><td>Javier (under your signature)</td></tr>
+        <tr><td>Newsletter / LinkedIn post</td><td>Newsletter / LinkedIn</td><td>Javier</td></tr>
+        <tr><td>Showing follow-up to a client</td><td>Showing Debrief</td><td><strong>You</strong></td></tr>
+        <tr><td>Offer cover memo to a listing agent</td><td>Offer Strategist</td><td><strong>You</strong></td></tr>
+        <tr><td>"We just lost the bid, here's what's next"</td><td>Dead-Zone Comms</td><td><strong>You</strong></td></tr>
+        <tr><td>Anything where the relationship is the message</td><td>Any helper</td><td><strong>You</strong></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 01 BUYER SIDE -->
+  <section class="directorate">
+    <div class="directorate-header">
+      <h2><span class="num">01</span>The Buyer Side</h2>
+      <span class="pill">6 helpers</span>
+    </div>
+    <p class="section-sub">Everything between "I'd love to work with you" and "we're under contract."</p>
+
+    <div class="grid">
+      <div class="card">
+        <div class="who"><span class="pill javier">Javier sends</span></div>
+        <h3>Tour Builder</h3>
+        <p class="does">Builds your buyer's showing route — handles parking buffers, traffic, and which listing agent prefers text vs. email.</p>
+        <div class="row-label">When to use it</div>
+        <p class="when">Buyer wants to see 4 places Saturday. You don't want to spend 45 minutes routing it.</p>
+        <div class="row-label">How to trigger it</div>
+        <div class="say">"Build a Saturday tour for the Hendersons — they want to see these four addresses."</div>
+      
+        <a class="example-link" href="examples/tour-builder.html">See an example →</a>
+      </div>
+
+      <div class="card">
+        <div class="who"><span class="pill javier">Javier sends</span></div>
+        <h3>Buyer FAQ</h3>
+        <p class="does">Drafts answers to the questions you've answered a thousand times — earnest money, FHA vs. conventional, what an attorney does.</p>
+        <div class="row-label">When to use it</div>
+        <p class="when">Client texts asking how earnest money works. Again.</p>
+        <div class="row-label">How to trigger it</div>
+        <div class="say">"Draft a buyer FAQ reply about earnest money for Lisa Park."</div>
+      
+        <a class="example-link" href="examples/buyer-faq.html">See an example →</a>
+      </div>
+
+      <div class="card">
+        <div class="who"><span class="pill marcus">You send</span></div>
+        <h3>Offer Strategist</h3>
+        <p class="does">Drafts the purchase offer + a cover memo to the listing agent, with comp-driven pricing and contingency strategy.</p>
+        <div class="row-label">When to use it</div>
+        <p class="when">Buyer's ready to write. You're driving back from the showing.</p>
+        <div class="row-label">How to trigger it</div>
+        <div class="say">"Pull together an offer strategy for 2418 N. Sheffield — buyer's the Carlsons."</div>
+      
+        <a class="example-link" href="examples/offer-strategist.html">See an example →</a>
+      </div>
+
+      <div class="card">
+        <div class="who"><span class="pill javier">Javier sends</span></div>
+        <h3>Search Activity Monitor</h3>
+        <p class="does">Every Friday, sends each active buyer a recap of what's happened on their search this week — so they know you're working.</p>
+        <div class="row-label">When to use it</div>
+        <p class="when">Automatic. Your job is just to skim it before it goes out.</p>
+        <div class="row-label">How to trigger it</div>
+        <div class="say">"Show me this week's buyer recaps before Javier sends them."</div>
+      
+        <a class="example-link" href="examples/search-activity-monitor.html">See an example →</a>
+      </div>
+
+      <div class="card">
+        <div class="who"><span class="pill marcus">You send</span></div>
+        <h3>Showing Debrief</h3>
+        <p class="does">Captures what the buyer loved/hated at each property and queues your follow-up message before you leave.</p>
+        <div class="row-label">When to use it</div>
+        <p class="when">Right after every showing. Before you start the car.</p>
+        <div class="row-label">How to trigger it</div>
+        <div class="say">"Quick debrief on 1112 W. Webster with the Hendersons."</div>
+      
+        <a class="example-link" href="examples/showing-debrief.html">See an example →</a>
+      </div>
+
+      <div class="card">
+        <div class="who"><span class="pill marcus">You send</span></div>
+        <h3>Grant Program Tracker</h3>
+        <p class="does">Keeps a live list of down-payment and closing-cost programs lenders share informally. Quarterly outreach + auto-pulled from your pocketAI calls.</p>
+        <div class="row-label">When to use it</div>
+        <p class="when">Buyer asks about grants. Or quarterly when you ping your lenders to refresh the list.</p>
+        <div class="row-label">How to trigger it</div>
+        <div class="say">"What grant programs apply to a $310K FHA buyer in West Loop?"</div>
+      
+        <a class="example-link" href="examples/grant-program-tracker.html">See an example →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 SELLER SIDE -->
+  <section class="directorate">
+    <div class="directorate-header">
+      <h2><span class="num">02</span>The Seller Side</h2>
+      <span class="pill">4 helpers</span>
+    </div>
+    <p class="section-sub">From "we'd like to interview you for the listing" through closing.</p>
+
+    <div class="grid">
+      <div class="card">
+        <div class="who"><span class="pill marcus">You send</span></div>
+        <h3>CMA</h3>
+        <p class="does">Comparative market analysis with a defensible price range — and your qualitative walk-through notes carried forward, not blended away.</p>
+        <div class="row-label">When to use it</div>
+        <p class="when">You're prepping for a listing presentation. This is your "million-dollar problem" helper.</p>
+        <div class="row-label">How to trigger it</div>
+        <div class="say">"Run a CMA on 4502 N. Hermitage."</div>
+      
+        <a class="example-link" href="examples/cma.html">See an example →</a>
+      </div>
+
+      <div class="card">
+        <div class="who"><span class="pill javier">Javier runs</span></div>
+        <h3>Listing Prep</h3>
+        <p class="does">Pre-list checklist from signed agreement to active MLS — repairs, photos, measurements, staging, disclosures, with a 7–14 day countdown.</p>
+        <div class="row-label">When to use it</div>
+        <p class="when">The day a listing agreement gets signed.</p>
+        <div class="row-label">How to trigger it</div>
+        <div class="say">"Start a listing prep timeline for the Tran property."</div>
+      
+        <a class="example-link" href="examples/listing-prep.html">See an example →</a>
+      </div>
+
+      <div class="card">
+        <div class="who"><span class="pill javier">Javier sends</span></div>
+        <h3>Listing Marketing</h3>
+        <p class="does">Drafts the MLS description (two versions to pick from), sequences first 14 days of social/email/syndication.</p>
+        <div class="row-label">When to use it</div>
+        <p class="when">Right after photos come back, before going live.</p>
+        <div class="row-label">How to trigger it</div>
+        <div class="say">"Draft the MLS copy and a 14-day marketing plan for the Hermitage listing."</div>
+      
+        <a class="example-link" href="examples/listing-marketing.html">See an example →</a>
+      </div>
+
+      <div class="card">
+        <div class="who"><span class="pill javier">Javier runs</span></div>
+        <h3>Showings Host</h3>
+        <p class="does">Manages incoming showing requests on your listings, coordinates seller access rules, captures buyer agent feedback.</p>
+        <div class="row-label">When to use it</div>
+        <p class="when">Once a listing is live. Mostly runs itself.</p>
+        <div class="row-label">How to trigger it</div>
+        <div class="say">"Roll up showing feedback for the Hermitage listing this week."</div>
+      
+        <a class="example-link" href="examples/showings-host.html">See an example →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 TRANSACTION MGMT -->
+  <section class="directorate">
+    <div class="directorate-header">
+      <h2><span class="num">03</span>Under Contract → Closing</h2>
+      <span class="pill">4 helpers</span>
+    </div>
+    <p class="section-sub">The 30–45 days where everything has a deadline and nobody likes surprises.</p>
+
+    <div class="grid">
+      <div class="card">
+        <div class="who"><span class="pill marcus">You send</span></div>
+        <h3>Attorney Handoff</h3>
+        <p class="does">Sets the client's expectations about what an Illinois attorney does — and doesn't — so you don't get blamed for their silence.</p>
+        <div class="row-label">When to use it</div>
+        <p class="when">The minute the client engages an attorney. Front-load this.</p>
+        <div class="row-label">How to trigger it</div>
+        <div class="say">"Run the attorney handoff for the Patel deal."</div>
+      
+        <a class="example-link" href="examples/attorney-handoff.html">See an example →</a>
+      </div>
+
+      <div class="card">
+        <div class="who"><span class="pill javier">Javier coordinates</span></div>
+        <h3>Inspection Handoff</h3>
+        <p class="does">Schedules the inspection, preps the client on what to expect, runs the post-inspection negotiation playbook.</p>
+        <div class="row-label">When to use it</div>
+        <p class="when">Day 1 of the inspection contingency period.</p>
+        <div class="row-label">How to trigger it</div>
+        <div class="say">"Kick off inspection for the Patel deal — contingency runs 5 days."</div>
+      
+        <a class="example-link" href="examples/inspection-handoff.html">See an example →</a>
+      </div>
+
+      <div class="card">
+        <div class="who"><span class="pill javier">Javier coordinates</span></div>
+        <h3>Lender Handoff</h3>
+        <p class="does">Tracks pre-approval expiration, watches financing deadlines, surfaces lender silence early so you can intervene before it's a problem.</p>
+        <div class="row-label">When to use it</div>
+        <p class="when">As soon as you have a lender on a deal.</p>
+        <div class="row-label">How to trigger it</div>
+        <div class="say">"Hand off the Patel deal to lender tracking."</div>
+      
+        <a class="example-link" href="examples/lender-handoff.html">See an example →</a>
+      </div>
+
+      <div class="card">
+        <div class="who"><span class="pill javier">Javier monitors</span></div>
+        <h3>Under-Contract Orchestrator</h3>
+        <p class="does">The timeline backbone for every active deal. Daily status, 48-hour heads-up on anything slipping, weekly client update.</p>
+        <div class="row-label">When to use it</div>
+        <p class="when">Every active under-contract deal. Always on.</p>
+        <div class="row-label">How to trigger it</div>
+        <div class="say">"What's slipping across my under-contract deals?"</div>
+      
+        <a class="example-link" href="examples/under-contract-orchestrator.html">See an example →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 CLIENT COMMS -->
+  <section class="directorate">
+    <div class="directorate-header">
+      <h2><span class="num">04</span>Talking to Clients</h2>
+      <span class="pill">3 helpers</span>
+    </div>
+    <p class="section-sub">The stuff that stops clients from feeling like they're "searching alone."</p>
+
+    <div class="grid">
+      <div class="card">
+        <div class="who"><span class="pill marcus">You send</span></div>
+        <h3>Dead-Zone Comms</h3>
+        <p class="does">Drafts the proactive "no update is an update" message during slow inventory or appraisal silence — pulls real activity from your pocketAI feed so it shows the work.</p>
+        <div class="row-label">When to use it</div>
+        <p class="when">Anytime a client has been quiet for too long. This is the helper that prevents what cost you that client last year.</p>
+        <div class="row-label">How to trigger it</div>
+        <div class="say">"Draft a dead-zone check-in for the Hendersons."</div>
+      
+        <a class="example-link" href="examples/dead-zone-comms.html">See an example →</a>
+      </div>
+
+      <div class="card">
+        <div class="who"><span class="pill marcus">You send</span></div>
+        <h3>Expectation Setter</h3>
+        <p class="does">Front-loads language at six key moments (first consult, going on market, going under contract, attorney intro, inspection, financing) so clients aren't surprised later.</p>
+        <div class="row-label">When to use it</div>
+        <p class="when">At every transition point in a deal.</p>
+        <div class="row-label">How to trigger it</div>
+        <div class="say">"Run the going-under-contract expectation reset for the Patels."</div>
+      
+        <a class="example-link" href="examples/expectation-setter.html">See an example →</a>
+      </div>
+
+      <div class="card">
+        <div class="who"><span class="pill javier">Javier sends</span></div>
+        <h3>Weekly Client Digest</h3>
+        <p class="does">Every Friday, one synthesized status per client across all phases (buyer search, listing, under-contract, past clients).</p>
+        <div class="row-label">When to use it</div>
+        <p class="when">Automatic Friday morning. You skim before Javier sends.</p>
+        <div class="row-label">How to trigger it</div>
+        <div class="say">"Show me this Friday's client digests."</div>
+      
+        <a class="example-link" href="examples/weekly-client-digest.html">See an example →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 MARKETING & BRAND -->
+  <section class="directorate">
+    <div class="directorate-header">
+      <h2><span class="num">05</span>Marketing &amp; Voice</h2>
+      <span class="pill">4 helpers</span>
+    </div>
+    <p class="section-sub">Stays in your voice. Stays useful. Doesn't sound like AI.</p>
+
+    <div class="grid">
+      <div class="card">
+        <div class="who"><span class="pill javier">Javier sends</span></div>
+        <h3>Marcus Voice</h3>
+        <p class="does">The gatekeeper — every customer-facing draft passes a 4-check filter: leads with the answer, specific over generic, warm not effusive, "would Marcus actually say this?"</p>
+        <div class="row-label">When to use it</div>
+        <p class="when">Automatic. You don't trigger it — every other helper runs through it.</p>
+        <div class="row-label">How to trigger it</div>
+        <div class="say">"Does this draft pass the voice check?"</div>
+      
+        <a class="example-link" href="examples/marcus-voice.html">See an example →</a>
+      </div>
+
+      <div class="card">
+        <div class="who"><span class="pill javier">Javier sends</span></div>
+        <h3>Newsletter</h3>
+        <p class="does">Drafts your monthly sphere newsletter — your intro (pulled from real moments in your week), a market recap, 2–3 neighborhood angles.</p>
+        <div class="row-label">When to use it</div>
+        <p class="when">Once a month. Javier prepares; you pick the angle.</p>
+        <div class="row-label">How to trigger it</div>
+        <div class="say">"Start the May newsletter draft."</div>
+      
+        <a class="example-link" href="examples/newsletter.html">See an example →</a>
+      </div>
+
+      <div class="card">
+        <div class="who"><span class="pill javier">Javier sends</span></div>
+        <h3>LinkedIn Post</h3>
+        <p class="does">Drafts a LinkedIn post anchored in a real moment from your week — hook, lens, point, soft close. Not generic "Chicago is hot!" filler.</p>
+        <div class="row-label">When to use it</div>
+        <p class="when">Whenever something interesting happens. Or weekly cadence.</p>
+        <div class="row-label">How to trigger it</div>
+        <div class="say">"Pull a LinkedIn post out of this week's calls."</div>
+      
+        <a class="example-link" href="examples/linkedin-post.html">See an example →</a>
+      </div>
+
+      <div class="card">
+        <div class="who"><span class="pill javier">Javier runs</span></div>
+        <h3>Market Report</h3>
+        <p class="does">Generates the monthly Chicago market data the newsletter and CMAs both pull from — median price, days on market, top neighborhoods by appreciation.</p>
+        <div class="row-label">When to use it</div>
+        <p class="when">First Monday of each month, automatic.</p>
+        <div class="row-label">How to trigger it</div>
+        <div class="say">"Pull this month's Chicago market report."</div>
+      
+        <a class="example-link" href="examples/market-report.html">See an example →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 OPERATIONS -->
+  <section class="directorate">
+    <div class="directorate-header">
+      <h2><span class="num">06</span>Your Second Brain</h2>
+      <span class="pill">6 helpers</span>
+      <span class="pill" style="background:#ffe7d6;color:var(--accent);">The spine</span>
+    </div>
+    <p class="section-sub">The plumbing. Most of this runs in the background. The two you'll actually talk to are <strong>Daily Debrief</strong> and <strong>Voice Capture</strong>.</p>
+
+    <div class="grid">
+      <div class="card">
+        <div class="who"><span class="pill marcus">You use it</span></div>
+        <h3>Daily Debrief</h3>
+        <p class="does">A 7–10 minute hands-free morning conversation. Walks you through every active client, what's open, what's slipping, what one thing matters most today.</p>
+        <div class="row-label">When to use it</div>
+        <p class="when">Mornings while you brush your teeth. End-of-day if you want a wrap.</p>
+        <div class="row-label">How to trigger it</div>
+        <div class="say">"Start my morning debrief."</div>
+      
+        <a class="example-link" href="examples/daily-debrief.html">See an example →</a>
+      </div>
+
+      <div class="card">
+        <div class="who"><span class="pill" style="background:#ffe7d6;color:var(--accent);">Always on</span></div>
+        <h3>pocketAI Feed</h3>
+        <p class="does">The central nervous system. Ingests your call recordings + consented in-person conversations, tags them, routes the right pieces to the right helpers, makes everything searchable.</p>
+        <div class="row-label">When to use it</div>
+        <p class="when">It's always on. You only touch it when a consent flag asks for confirmation.</p>
+        <div class="row-label">How to trigger it</div>
+        <div class="say">"What did I tell the Carlas about the closing-cost grant?"</div>
+      
+        <a class="example-link" href="examples/pocketai-feed.html">See an example →</a>
+      </div>
+
+      <div class="card">
+        <div class="who"><span class="pill marcus">You use it</span></div>
+        <h3>Voice Capture</h3>
+        <p class="does">Catches the bursts the pocketAI doesn't — parking-lot thoughts, between-meeting ideas, walking-the-property notes. Talk; it files them.</p>
+        <div class="row-label">When to use it</div>
+        <p class="when">Anytime a thought lands and you don't want to lose it.</p>
+        <div class="row-label">How to trigger it</div>
+        <div class="say">"Capture a quick note: the Hermitage backyard has more privacy than I thought."</div>
+      
+        <a class="example-link" href="examples/voice-capture.html">See an example →</a>
+      </div>
+
+      <div class="card">
+        <div class="who"><span class="pill javier">Javier runs</span></div>
+        <h3>Email Triage</h3>
+        <p class="does">Sorts your inbox by priority, flags client questions, pre-drafts the FAQ-able replies, routes the rest to the right helper.</p>
+        <div class="row-label">When to use it</div>
+        <p class="when">Every morning. Javier handles 80%; you see the 20% that needs you.</p>
+        <div class="row-label">How to trigger it</div>
+        <div class="say">"What's in my inbox that actually needs me?"</div>
+      
+        <a class="example-link" href="examples/email-triage.html">See an example →</a>
+      </div>
+
+      <div class="card">
+        <div class="who"><span class="pill" style="background:#ffe7d6;color:var(--accent);">Reference</span></div>
+        <h3>Referral Network</h3>
+        <p class="does">Your canonical list of lenders, attorneys, inspectors, agents, contractors — with channel preference, your read on them, and relationship history.</p>
+        <div class="row-label">When to use it</div>
+        <p class="when">Anytime you're about to make a referral or remember "who was that inspector?"</p>
+        <div class="row-label">How to trigger it</div>
+        <div class="say">"Who's the right lender for a self-employed buyer at $450K?"</div>
+      
+        <a class="example-link" href="examples/referral-network.html">See an example →</a>
+      </div>
+
+      <div class="card">
+        <div class="who"><span class="pill javier">Javier uses it</span></div>
+        <h3>SOP Library</h3>
+        <p class="does">The written-down version of the answers you used to repeat to Javier. He consults it instead of asking. New question? Answer once, it gets added.</p>
+        <div class="row-label">When to use it</div>
+        <p class="when">Whenever Javier is about to ask "wait, how do we usually…?" — he checks here first.</p>
+        <div class="row-label">How to trigger it</div>
+        <div class="say">"Add a new SOP: how we handle showing requests on weekend listings."</div>
+      
+        <a class="example-link" href="examples/sop-library.html">See an example →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 FOUNDER COMMANDS -->
+  <section class="directorate">
+    <div class="directorate-header">
+      <h2><span class="num">07</span>Your Mobile Shortcuts</h2>
+      <span class="pill">4 fast-capture commands</span>
+    </div>
+    <p class="section-sub">Short phrases you say to your phone or pocketAI between showings. The most-used ones in the system.</p>
+
+    <div class="grid">
+      <div class="card">
+        <div class="who"><span class="pill marcus">You</span></div>
+        <h3>"Log a decision."</h3>
+        <p class="does">Capture a non-trivial business call (pricing, vendor, deal strategy). Formats it into a clean decision-log entry — what, why, context.</p>
+        <div class="row-label">When to use it</div>
+        <p class="when">Every time you make a judgment call you'll want to remember six months later.</p>
+        <div class="row-label">How to trigger it</div>
+        <div class="say">"Log a decision: dropping list price on Hermitage by 2%."</div>
+      
+        <a class="example-link" href="examples/log-decision.html">See an example →</a>
+      </div>
+
+      <div class="card">
+        <div class="who"><span class="pill marcus">You</span></div>
+        <h3>"Quick client touch."</h3>
+        <p class="does">Captures a client interaction the pocketAI missed — hallway chat, a text exchange, a quick call you took on the move.</p>
+        <div class="row-label">When to use it</div>
+        <p class="when">When something happened off-record but matters.</p>
+        <div class="row-label">How to trigger it</div>
+        <div class="say">"Quick client touch: ran into the Hendersons at the open house, they're getting impatient."</div>
+      
+        <a class="example-link" href="examples/client-touch.html">See an example →</a>
+      </div>
+
+      <div class="card">
+        <div class="who"><span class="pill marcus">You</span></div>
+        <h3>"Quick debrief."</h3>
+        <p class="does">60-second post-showing dump: address, client, gut take, one good, one bad, open question, next step.</p>
+        <div class="row-label">When to use it</div>
+        <p class="when">Right after every single showing. Before you drive away.</p>
+        <div class="row-label">How to trigger it</div>
+        <div class="say">"Quick debrief on 1112 W. Webster with the Hendersons."</div>
+      
+        <a class="example-link" href="examples/quick-debrief.html">See an example →</a>
+      </div>
+
+      <div class="card">
+        <div class="who"><span class="pill marcus">You</span></div>
+        <h3>"Voice memo dump."</h3>
+        <p class="does">Talk for 30–90 seconds about anything. The system parses it into TODOs, decisions, client notes, listing notes — and tells you where each piece went.</p>
+        <div class="row-label">When to use it</div>
+        <p class="when">When you've got a head full of stuff and 90 seconds in the car.</p>
+        <div class="row-label">How to trigger it</div>
+        <div class="say">"Voice memo dump." (then talk)</div>
+      
+        <a class="example-link" href="examples/voice-memo-dump.html">See an example →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 JAVIER -->
+  <section class="directorate">
+    <div class="directorate-header">
+      <h2><span class="num">08</span>Javier's Layer</h2>
+      <span class="pill javier">For Javier</span>
+    </div>
+    <p class="section-sub">You don't open this. Javier does. It's the written-down version of your operating system, so he stops having to ask you the same questions twice.</p>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Daily Checklist</h3>
+        <p class="does">Javier's one-page daily workflow. Email triage → calendar → showing requests → drafts → digests → end-of-day update to you.</p>
+      </div>
+      <div class="card">
+        <h3>SOPs (6 of them)</h3>
+        <p class="does">Standard operating procedures for repeated sequences — how to schedule a showing, how to send a tour request, how the quarterly grant outreach runs.</p>
+      </div>
+      <div class="card">
+        <h3>Playbooks (2 of them)</h3>
+        <p class="does">Decision trees for ambiguous situations — when to escalate to Marcus, when to wait for the listing agent to respond before re-pinging.</p>
+      </div>
+      <div class="card">
+        <h3>Tagging guide</h3>
+        <p class="does">How Javier labels pocketAI recordings so they end up in the right client folder and the right helper picks them up.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAIN MAP -->
+  <section>
+    <h2>The pain → helper map</h2>
+    <p class="section-sub">From your April 24 interview. Every pain you named has a named owner.</p>
+
+    <div class="pain-map">
+      <div class="pain-row">
+        <div class="said">"Managing the unexpected — six things urgent at once."</div>
+        <div class="owner">Daily Debrief + pocketAI Feed<span>The morning helper sequences the chaos so you don't.</span></div>
+      </div>
+      <div class="pain-row">
+        <div class="said">"Scheduling showings — parking, traffic, listing-agent channels."</div>
+        <div class="owner">Tour Builder<span>Your #1 most-excited-about idea.</span></div>
+      </div>
+      <div class="pain-row">
+        <div class="said">"CMA — the million-dollar problem."</div>
+        <div class="owner">CMA<span>Carries forward your qualitative read instead of averaging it away.</span></div>
+      </div>
+      <div class="pain-row">
+        <div class="said">"Clients who feel they're searching alone."</div>
+        <div class="owner">Dead-Zone Comms + Search Activity Monitor<span>Prevents what cost you that client last year.</span></div>
+      </div>
+      <div class="pain-row">
+        <div class="said">"Comms — not sure people read what we send."</div>
+        <div class="owner">Marcus Voice + Newsletter + LinkedIn<span>Anchored in real moments, written like you talk.</span></div>
+      </div>
+      <div class="pain-row">
+        <div class="said">"I want an AI that calls me while I brush my teeth."</div>
+        <div class="owner">Daily Debrief<span>Now real.</span></div>
+      </div>
+      <div class="pain-row">
+        <div class="said">"Javier should be a second brain — I shouldn't have to tell him the sequence."</div>
+        <div class="owner">Javier Layer SOPs + searchable pocketAI corpus<span>The questions are now answerable without you.</span></div>
+      </div>
+      <div class="pain-row">
+        <div class="said">"Client misunderstood what an attorney does vs. a broker."</div>
+        <div class="owner">Attorney Handoff + Expectation Setter<span>Front-loaded so the surprise doesn't happen.</span></div>
+      </div>
+      <div class="pain-row">
+        <div class="said">"Same FAQ over and over — down payment assistance, grants."</div>
+        <div class="owner">Buyer FAQ + Grant Program Tracker<span>FAQ for general questions; live database for grants banks share informally.</span></div>
+      </div>
+      <div class="pain-row">
+        <div class="said">"Capture stuff verbally during the day so the to-do list builds itself."</div>
+        <div class="owner">pocketAI Feed + Voice Memo Dump<span>You talk. The list builds itself.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHEAT SHEET -->
+  <section class="cheat">
+    <h2>Pocket cheat sheet</h2>
+    <p style="color:#d8dde8; margin-top:0;">Save this. These are the ten phrases that cover 80% of what you'll do.</p>
+    <table>
+      <thead>
+        <tr><th>When this happens…</th><th>Say this</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Brushing teeth</td><td><code>Start my morning debrief.</code></td></tr>
+        <tr><td>Right after a showing</td><td><code>Quick debrief on [address] with [client].</code></td></tr>
+        <tr><td>Made a judgment call</td><td><code>Log a decision: [what you decided].</code></td></tr>
+        <tr><td>Buyer wants a Saturday tour</td><td><code>Build a tour for [client] — they want to see [addresses].</code></td></tr>
+        <tr><td>Going under contract</td><td><code>Run the under-contract handoffs for [client].</code></td></tr>
+        <tr><td>Client's been quiet too long</td><td><code>Draft a dead-zone check-in for [client].</code></td></tr>
+        <tr><td>Listing presentation tomorrow</td><td><code>Run a CMA on [address].</code></td></tr>
+        <tr><td>Random thought, no time</td><td><code>Voice memo dump.</code></td></tr>
+        <tr><td>"What did I tell that client about…"</td><td><code>Search my pocketAI: [topic] with [client].</code></td></tr>
+        <tr><td>Inbox is overwhelming</td><td><code>What's in my inbox that actually needs me?</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq" id="faq">
+    <h2>Common questions</h2>
+    <p class="section-sub">The "wait, but…" questions that come up when people first see this.</p>
+
+    <details>
+      <summary>Do I have to learn 31 different things?</summary>
+      <p>No. You'll really only <em>talk</em> to four or five of them — Daily Debrief, Showing Debrief, Log a Decision, Voice Memo Dump, and the pocketAI search ("what did I tell so-and-so about…"). Everything else either runs in the background or gets used by Javier. The full list is here so you and Javier know what's available when a need shows up.</p>
+    </details>
+
+    <details>
+      <summary>What if I don't trust the AI to send something?</summary>
+      <p>Then you don't. Nothing here sends without a human reviewing it. Operational stuff (showing requests, FAQ replies, weekly recaps) Javier reviews and sends. Anything relational — showing follow-ups, lost-bid messages, anything where the relationship is the message — only goes out when <strong>you</strong> hit send. The team's job is to get the draft to "almost done" so you're not staring at a blank screen.</p>
+    </details>
+
+    <details>
+      <summary>What happens if Javier is sick?</summary>
+      <p>The drafts still get made. They just sit in a queue waiting for someone to send them. You can hit send yourself in a pinch — every helper writes drafts that read like Javier wrote them, with your sign-off. The bigger insurance is the SOP library: if you ever need to onboard a backup VA, the system Javier uses is documented, not in his head.</p>
+    </details>
+
+    <details>
+      <summary>What about the recording rules?</summary>
+      <p>Phone calls in Illinois only need one party to consent — you, on your own calls. In-person conversations are two-party: you need to ask. The pocketAI helper has a 12-second consent script you can read, and it auto-pauses recording until consent is given. Personal calls (family, doctor, etc.) auto-quarantine and never enter the corpus.</p>
+    </details>
+
+    <details>
+      <summary>What if a helper is doing something dumb?</summary>
+      <p>Tell Claude — in plain English. You don't need to know code or markdown.</p>
+      <p><strong>Small fixes:</strong> Open Claude with your team folder selected and say something like: <em>"The tour-builder helper keeps forgetting parking notes. Open the SKILL.md at <code>01_buyer_side/skills/tour-builder/</code> and update it so parking is always checked first."</em> Claude rewrites the file for you. Test it on a real task. If it's still wrong, tell Claude what's still off — it'll iterate.</p>
+      <p><strong>Bigger fixes:</strong> If a helper has a pattern problem — wrong tone, missing context, routing to the wrong folder — say: <em>"Review the [helper name] skill end-to-end. It's been doing [X]. Tell me what's wrong and propose a fix."</em> Claude reads the SKILL.md, walks you through what to change, and only edits when you say go.</p>
+      <p><strong>Retire a helper:</strong> If after 30 days a helper isn't earning its place, say: <em>"Archive the [helper name] skill — we're not using it."</em> Claude moves it out of the active folder so it stops loading, but keeps the file around in case you change your mind.</p>
+      <p>You own this system. Nothing here requires anyone else to maintain it.</p>
+    </details>
+
+    <details>
+      <summary>How do I find this folder again?</summary>
+      <p>It lives at <code>~/Documents/Claude/Projects/Marcus Real Estate Team/</code>. The two files worth bookmarking: <code>00_README.md</code> (the system map) and this page (<code>marcus-team-overview.html</code>).</p>
+    </details>
+  </section>
+
+  <!-- SETUP GUIDE -->
+  <section class="setup-guide">
+    <h2>Setting up your team — one-time, ~2 hours</h2>
+    <p class="lead">Self-service from end to end. You'll need: a laptop, your phone, your pocketAI device, and the cloud link to your team folder.</p>
+
+    <div class="skip">First time setting this up? Read these 7 steps top to bottom. Already running? You probably don't need this section — refer to it when adding a new tool or onboarding Javier.</div>
+
+    <div class="setup-step">
+      <div class="num-circle">1</div>
+      <div>
+        <h3>Get your team folder onto your computer<span class="time">10 min</span></h3>
+        <p>Your team folder ("Marcus Real Estate Team") was delivered to you as a cloud link — Dropbox, Google Drive, or similar. Open the link and download the whole folder.</p>
+        <p><strong>Save it here, exactly:</strong> <code>~/Documents/Claude/Projects/Marcus Real Estate Team/</code></p>
+        <p>Don't move it after that — Claude looks for it in this location. If you want it backed up to the cloud, drag the folder into a synced Dropbox or Google Drive folder <em>first</em>, and then point Claude at the synced location. (This matters in step 4 — Javier needs the same folder.)</p>
+      </div>
+    </div>
+
+    <div class="setup-step">
+      <div class="num-circle">2</div>
+      <div>
+        <h3>Install Claude on your computer<span class="time">15 min</span></h3>
+        <ul>
+          <li>Go to <code>claude.ai/download</code> and install the desktop app for Mac or Windows.</li>
+          <li>Sign in with your email. If you don't have an account, create one — use your work email so receipts and access are clean.</li>
+          <li>Pick a paid plan. <strong>Pro is the minimum;</strong> Max gives you more capacity if you'll be running the system heavily (which you will be once Javier's also using it).</li>
+          <li>Open Claude. Go to <strong>Settings → Desktop app → Cowork mode</strong> and turn it on. Cowork is what lets Claude read and write files in your team folder.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="setup-step">
+      <div class="num-circle">3</div>
+      <div>
+        <h3>Point Claude at your team folder<span class="time">2 min</span></h3>
+        <ul>
+          <li>In the Claude app, click <strong>"Select folder"</strong> (or "Connect a workspace").</li>
+          <li>Navigate to <code>~/Documents/Claude/Projects/Marcus Real Estate Team/</code> and select it.</li>
+          <li>That's it. Claude now has access to all 31 helpers + the data folder + the SOP library.</li>
+        </ul>
+        <p><strong>Quick test:</strong> in the Claude chat, type <code>"list the helpers in my team"</code>. You should see the directorate folders. If you see them, you're good.</p>
+      </div>
+    </div>
+
+    <div class="setup-step">
+      <div class="num-circle">4</div>
+      <div>
+        <h3>Get Javier his own setup<span class="time">30 min, his time not yours</span></h3>
+        <p>Javier is the other human on this team. He needs his own Claude — don't share your login.</p>
+        <ul>
+          <li>Send him this guide. He runs steps 2 and 3 on his own machine.</li>
+          <li><strong>The team folder must be shared between you two.</strong> Easiest setup: put the folder in a shared Dropbox or Google Drive folder you both have access to. Both your machines point Claude at the same cloud-synced location.</li>
+          <li>When you log a decision, he sees it within seconds. When he updates an SOP, you see it. The folder is the shared brain — that's the whole point.</li>
+          <li>Javier should start in <code>08_javier_layer/</code>. The daily checklist there is his Day 1 reading.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="setup-step">
+      <div class="num-circle">5</div>
+      <div>
+        <h3>Connect your tools (the integrations)<span class="time">~45 min spread over Week 1</span></h3>
+        <p>Don't try to connect all of these in one sitting. Connect them as you need them — but the four marked "Day 1" should go in before you start using the system for real work.</p>
+
+        <table class="connector-table">
+          <thead>
+            <tr><th>Tool</th><th>How to connect</th><th>Priority</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Email</strong> (Gmail or Outlook)</td>
+              <td>In Claude → Settings → Connectors → Gmail or Outlook → "Connect" → sign in. <span class="method">Built-in connector.</span></td>
+              <td><span class="tier must">Day 1</span></td>
+            </tr>
+            <tr>
+              <td><strong>Calendar</strong> (Google or Outlook)</td>
+              <td>Same place — Settings → Connectors. Authorize. <span class="method">Built-in connector.</span></td>
+              <td><span class="tier must">Day 1</span></td>
+            </tr>
+            <tr>
+              <td><strong>pocketAI</strong> (recordings)</td>
+              <td>Open the pocketAI app on your phone. Set the cloud-sync destination to a folder that Claude can read — recommended: <code>06_operations_second_brain/skills/pocketai-feed/recordings/</code> inside your team folder. <span class="method">File-sync setup, not a Claude connector.</span></td>
+              <td><span class="tier must">Day 1</span></td>
+            </tr>
+            <tr>
+              <td><strong>Cloud storage</strong> (Drive or Dropbox)</td>
+              <td>Settings → Connectors → Google Drive (or Dropbox) → connect. Lets helpers pull contracts, photo deliveries, MLS exports. <span class="method">Built-in connector.</span></td>
+              <td><span class="tier must">Day 1</span></td>
+            </tr>
+            <tr>
+              <td><strong>Your sphere / contacts</strong></td>
+              <td>Wherever your past clients live (Google Contacts, Mailchimp, Follow Up Boss, a spreadsheet) — export as CSV into <code>09_data/contacts/</code>. Refresh quarterly. <span class="method">Manual export. Search the MCP registry for your CRM — if a connector exists, use it.</span></td>
+              <td><span class="tier should">Week 1</span></td>
+            </tr>
+            <tr>
+              <td><strong>MLS</strong> (MRED)</td>
+              <td>No direct connector — most MLS systems don't allow one. Workaround: Javier exports comp searches and listing reports as PDFs into the relevant deal folder. The CMA helper reads them. <span class="method">Manual export to folder.</span></td>
+              <td><span class="tier should">Week 1</span></td>
+            </tr>
+            <tr>
+              <td><strong>DocuSign</strong> (or your contract platform)</td>
+              <td>Save signed contracts and disclosures to the deal's listing folder. Helpers will pick them up automatically. <span class="method">File-drop into the team folder.</span></td>
+              <td><span class="tier should">Week 1</span></td>
+            </tr>
+            <tr>
+              <td><strong>ShowingTime</strong> (or your showing service)</td>
+              <td>Most have an iCal export — point it at your Google or Outlook calendar (already connected in Day 1). Showing requests then flow to Javier through the calendar. <span class="method">Calendar bridge.</span></td>
+              <td><span class="tier should">Week 1</span></td>
+            </tr>
+            <tr>
+              <td><strong>Newsletter</strong> (Mailchimp / Constant Contact / etc.)</td>
+              <td>The newsletter helper writes the draft. Javier copies the body into your platform and hits send there. Keep the platform open in a tab — no Claude connector needed. <span class="method">Manual publish.</span></td>
+              <td><span class="tier should">Week 2</span></td>
+            </tr>
+            <tr>
+              <td><strong>LinkedIn</strong></td>
+              <td>The LinkedIn-post helper drafts, you or Javier publish manually from the LinkedIn site or app. <span class="method">Manual publish.</span></td>
+              <td><span class="tier nice">Week 2+</span></td>
+            </tr>
+            <tr>
+              <td><strong>Maps / routing</strong> (Google Maps)</td>
+              <td>Nothing to set up — Claude uses Google Maps automatically when tour-builder needs routing. Just be online. <span class="method">No setup.</span></td>
+              <td><span class="tier nice">N/A</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p style="margin-top:14px;"><strong>If a connector you need isn't listed:</strong> in Claude, type <em>"search the MCP registry for [tool name]"</em>. Claude will tell you if a connector exists and how to install it.</p>
+      </div>
+    </div>
+
+    <div class="setup-step">
+      <div class="num-circle">6</div>
+      <div>
+        <h3>Test the system before relying on it<span class="time">10 min</span></h3>
+        <p>Run these four checks. If all four work, you're live:</p>
+        <ul>
+          <li>Say <code>"start my morning debrief"</code> — should walk through your active clients (will be empty on Day 1; that's fine, it should still respond).</li>
+          <li>Say <code>"log a decision: testing my new system"</code> — check that <code>09_data/decisions/decision-log.md</code> got the entry written to the top.</li>
+          <li>Say <code>"show me my pocketAI feed"</code> — confirm Claude can see the recordings folder. (No recordings yet on Day 1 = expected.)</li>
+          <li>Drop a test PDF into <code>09_data/listings/test/</code> and ask <code>"what's in my test listing folder?"</code> — confirm Claude reads it.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="setup-step">
+      <div class="num-circle">7</div>
+      <div>
+        <h3>Go live — but ease in<span class="time">Week 1</span></h3>
+        <p>Don't try to use all 31 helpers at once. Start with the three things in <a href="#start-here">"Start here in week 1"</a> below. Add helpers as you bump into needs. By end of Week 2, you'll have used about half of them and you'll know which ones earn their place for you.</p>
+      </div>
+    </div>
+
+    <div class="setup-troubleshoot">
+      <strong>If anything in setup breaks:</strong> tell Claude what happened in plain English. <em>"I followed step 3 but Claude can't see my team folder"</em> is enough — Claude will diagnose and walk you through the fix. You don't need to call anyone for help. The whole system is built to be self-supporting; if a helper or a setup step misbehaves, Claude can read its own files, identify the problem, and propose a fix. See <a href="#faq">"What if a helper is doing something dumb?"</a> in the FAQ for the same approach applied to running the system day-to-day.
+    </div>
+  </section>
+
+  <footer>
+    <p><strong>v0.1 · April 28, 2026.</strong></p>
+    <p>This is the first scaffold — expect to add, prune, and tune over the first 30 days based on what you and Javier actually reach for. Skills that don't earn their place get cut. Skills that surprise you with how useful they are get extended. The system is yours: when something isn't working, tell Claude what to change. When something works better than expected, tell Claude to extend it. You don't need anyone else to maintain this.</p>
+  </footer>
+
+</div>
+
+</body>
+</html>

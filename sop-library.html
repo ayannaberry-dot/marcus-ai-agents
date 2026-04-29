@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOP Library — Example · Marcus's Team</title>
+<style>
+:root {
+  --bg: #f7f3ec;
+  --ink: #1a1f2b;
+  --muted: #5a6478;
+  --accent: #c4541b;
+  --accent-soft: #f5e3d6;
+  --navy: #1f3354;
+  --navy-soft: #e3e8f1;
+  --green: #2f6d4f;
+  --green-soft: #dceee4;
+  --card: #ffffff;
+  --border: #e3ddd0;
+  --shadow: 0 1px 2px rgba(20, 25, 35, 0.04), 0 8px 24px rgba(20, 25, 35, 0.06);
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.55; font-size: 16px;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 24px 24px 80px; }
+.topbar {
+  background: var(--navy); color: #f7f3ec; padding: 14px 0;
+}
+.topbar .inner {
+  max-width: 880px; margin: 0 auto; padding: 0 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap;
+}
+.topbar a { color: #ffb079; text-decoration: none; font-weight: 600; font-size: 14px; }
+.topbar a:hover { text-decoration: underline; }
+.crumb { color: #d8dde8; font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; }
+header.page {
+  margin-top: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--border);
+}
+.eyebrow {
+  text-transform: uppercase; letter-spacing: 0.1em; font-size: 11px;
+  color: var(--accent); font-weight: 700; margin-bottom: 8px;
+}
+h1 { font-size: 34px; line-height: 1.15; margin: 0 0 10px; letter-spacing: -0.02em; }
+.tagline { color: var(--muted); margin: 0; font-size: 17px; }
+.who-bar {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px;
+}
+.pill {
+  display: inline-block; font-size: 12px; font-weight: 600;
+  padding: 4px 10px; border-radius: 999px;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.pill.javier { background: var(--green-soft); color: var(--green); }
+.pill.marcus { background: var(--accent-soft); color: var(--accent); }
+.pill.system { background: var(--navy-soft); color: var(--navy); }
+.section-label {
+  font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em;
+  font-weight: 700; color: var(--muted); margin: 32px 0 8px;
+}
+.you-said {
+  background: #f4f0e6; border-left: 4px solid var(--accent);
+  border-radius: 0 12px 12px 0; padding: 16px 18px;
+  font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 15px;
+}
+.you-said::before { content: "👋  "; font-family: -apple-system, sans-serif; }
+.output {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 24px; box-shadow: var(--shadow);
+  margin-top: 8px;
+}
+.output h2 { margin-top: 0; font-size: 20px; }
+.output h3 {
+  font-size: 16px; margin: 20px 0 6px;
+  color: var(--navy); letter-spacing: -0.01em;
+}
+.output p { margin: 0 0 12px; }
+.output ul, .output ol { padding-left: 22px; margin: 0 0 12px; }
+.output li { margin-bottom: 6px; }
+.email {
+  background: #fafaf6; border: 1px solid var(--border); border-radius: 8px;
+  padding: 16px 18px; margin: 8px 0; font-size: 15px;
+}
+.email .meta { color: var(--muted); font-size: 13px; margin-bottom: 10px; }
+.email .meta strong { color: var(--ink); }
+.email .body { white-space: pre-wrap; line-height: 1.55; }
+.kv { display: grid; grid-template-columns: 160px 1fr; gap: 8px 16px; margin: 8px 0 16px; }
+.kv dt { color: var(--muted); font-size: 14px; }
+.kv dd { margin: 0; font-size: 15px; }
+table.data {
+  width: 100%; border-collapse: collapse; margin: 8px 0 16px; font-size: 14px;
+}
+table.data th, table.data td {
+  text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border);
+}
+table.data th { background: #faf6ee; color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+table.data tr:last-child td { border-bottom: none; }
+.callout {
+  background: var(--accent-soft); border-radius: 10px;
+  padding: 14px 16px; margin: 14px 0;
+  font-size: 14.5px; color: var(--ink);
+}
+.callout strong { color: var(--accent); }
+.flag {
+  background: #fff5e6; border-left: 3px solid #d18a2a;
+  padding: 10px 14px; border-radius: 0 8px 8px 0;
+  margin: 12px 0; font-size: 14.5px;
+}
+.next-step {
+  background: var(--navy); color: #f7f3ec; border-radius: 14px;
+  padding: 20px 24px; margin-top: 32px;
+}
+.next-step h3 { color: #ffb079; margin: 0 0 8px; font-size: 16px; }
+.next-step p { margin: 0; color: #d8dde8; }
+.next-step strong { color: #fff; }
+.nav-foot {
+  display: flex; justify-content: space-between; gap: 12px;
+  margin-top: 36px; padding-top: 20px; border-top: 1px solid var(--border);
+  font-size: 14px;
+}
+.nav-foot a { color: var(--accent); text-decoration: none; font-weight: 600; }
+.nav-foot a:hover { text-decoration: underline; }
+.diff-add { color: var(--green); }
+.diff-flag { color: var(--accent); font-weight: 600; }
+code.inline {
+  background: #f4f0e6; padding: 2px 6px; border-radius: 4px;
+  font-size: 13.5px;
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="inner">
+    <span class="crumb">06 · Operations / Second Brain</span>
+    <a href="../marcus-team-overview.html">← Back to your team</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header class="page">
+    <div class="eyebrow">06 · Operations / Second Brain</div>
+    <h1>SOP Library</h1>
+    <p class="tagline">The written-down version of what used to live in your head. Javier consults it instead of asking you twice.</p>
+    <div class="who-bar"><span class="pill javier">Javier uses it</span><span class="pill system">Grows over time</span></div>
+  </header>
+
+  <div class="section-label">What you'd say</div>
+  <div class="you-said">"Add a new SOP: how we handle showing requests on weekend listings."</div>
+
+  <div class="section-label">What the helper produces</div>
+  <div class="output">
+      <h2>New SOP drafted · Weekend showing requests on Marcus's listings</h2>
+      <p style="color:var(--muted);">Created Apr 28, 2026 · Author: Marcus (captured by voice) · Owner: Javier</p>
+
+      <h3>SOP body</h3>
+      <div class="output" style="box-shadow:none; padding:18px; border:1px dashed var(--border);">
+        <h3 style="margin-top:0;">When a buyer agent requests a showing on one of Marcus's active listings for a Saturday or Sunday:</h3>
+
+        <p><strong>1. Confirm the request within 2 hours, even if you can't yet schedule.</strong> "Got it, working on confirming with the seller now" is the standard ack.</p>
+
+        <p><strong>2. Check seller access rules in the listing folder.</strong> If sellers have blackout windows (e.g., Sunday morning church, Saturday before 10 AM), don't propose those.</p>
+
+        <p><strong>3. Default cadence:</strong> 30-min slots. 15-min buffer between back-to-back requests on the same property.</p>
+
+        <p><strong>4. Confirm with seller by their preferred channel</strong> (logged in their client file). Tina Tran prefers text; Henrik Liu prefers email; Costa family wants a phone call for anything weekend-day-of.</p>
+
+        <p><strong>5. Once confirmed:</strong>
+        <br>– Send buyer agent confirmation in their preferred channel (referral network has this)
+        <br>– Update lockbox / showing-app system
+        <br>– Log on the listing's showing calendar in 09_data
+        <br>– Flag in Daily Debrief if showing is Sat AM (Marcus likes to be aware of weekend traffic on listings)</p>
+
+        <p><strong>6. Day-of:</strong>
+        <br>– Send the buyer agent a 60-min reminder
+        <br>– Capture post-showing feedback within 4 hours via the showings-host helper
+        <br>– Roll up to seller in Friday digest</p>
+
+        <p><strong>Edge cases:</strong>
+        <br>– Buyer agent wants &lt;24 hours notice → Tina/seller confirmation by phone, not text. If you can't reach seller in 30 min, decline and offer next available.
+        <br>– Multiple buyer agents requesting the same window → first-come, first-confirmed. Don't double-book.
+        <br>– Open house weekend → buyer-agent appointments by appointment only outside open house hours; during OH, walk-ins welcome but capture name + agent.</p>
+      </div>
+
+      <h3>Where this gets used</h3>
+      <ul>
+        <li>Javier's daily checklist references this SOP for any weekend showing request</li>
+        <li>Showings-host helper invokes it when scheduling on Marcus's listings</li>
+        <li>If Marcus is asked the question again ("how do we handle weekend showings?") the helper points him here instead of him explaining again</li>
+      </ul>
+
+      <div class="callout">
+        <strong>The 4th SOP added this month.</strong> Each one is an answer Marcus used to give Javier verbally. Library is now at 17 documented SOPs, up from 6 at the v0.1 launch.
+      </div>
+    </div>
+
+  <div class="next-step">
+    
+      <h3>What happens now</h3>
+      <p><strong>SOP saved to <code class="inline">08_javier_layer/sops/weekend-showings.md</code>.</strong> Javier sees it in his daily checklist next time it's relevant. If he hits an edge case the SOP doesn't cover, he asks once and the SOP updates.</p>
+    
+  </div>
+
+  <div class="nav-foot">
+    <a href="referral-network.html">← Referral Network</a>
+    <a href="log-decision.html">Log a Decision →</a>
+  </div>
+
+</div>
+
+</body>
+</html>
